@@ -9596,9 +9596,9 @@ var getChromeTemplate = function(isPopup)
     r[++i] = Firebug.version;
     r[++i] = '</title>';
 
-    r[++i] = '<script type="text/css">';
+    r[++i] = '<style type="text/css">';
     r[++i] = tpl.CSS;
-    r[++i] = '</script>';
+    r[++i] = '</style>';
 
     r[++i] = '</head><body class="fbBody' + (isPopup ? ' FirebugPopup' : '') + '">';
     r[++i] = tpl.HTML;
