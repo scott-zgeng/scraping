@@ -16,6 +16,9 @@
     }
   },
   "permissions": [
+    {"fileSystem": ["write"]},
+    "unlimitedStorage",
+    "contextMenus",
     "http://*/*",
     "https://*/*",
     "http://127.0.0.1/*",

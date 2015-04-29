@@ -24,7 +24,7 @@ window.chrome.app.runtime.onRestarted.addListener(function () {
  */
 function runApp() {
     window.chrome.app.window.create(
-        'browser.html',
+        'main.html',
         {'id': 'initialBrowserWindowID', 'state': 'maximized'},
         function (newWindow) {
             // Do not inject meaningful window.newWindowEvent; browser will instead

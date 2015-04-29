@@ -11256,6 +11256,8 @@ var onHSplitterMouseDown = function onHSplitterMouseDown(event)
 
 var onHSplitterMouseMove = function onHSplitterMouseMove(event)
 {
+    //console.log("onHSplitterMouseMove");  // debug zg
+
     cancelEvent(event, true);
 
     var clientY = event.clientY;
@@ -11376,6 +11378,8 @@ var onVSplitterMouseDown = function onVSplitterMouseDown(event)
 
 var onVSplitterMouseMove = function onVSplitterMouseMove(event)
 {
+    //console.log("onVSplitterMouseMove");  // debug zg
+
     if (new Date().getTime() - lastVSplitterMouseMove > chromeRedrawSkipRate) // frame skipping
     {
         var target = event.target || event.srcElement;
@@ -17236,6 +17240,9 @@ Firebug.Inspector =
 
     toggleInspect: function()
     {
+        console.log("toggleInspect");
+
+
         if (isInspecting)
         {
             this.stopInspecting();
@@ -17249,6 +17256,8 @@ Firebug.Inspector =
 
     startInspecting: function()
     {
+        console.log("startInspecting");
+
         isInspecting = true;
 
         Firebug.chrome.selectPanel("HTML");
@@ -17268,6 +17277,7 @@ Firebug.Inspector =
 
     stopInspecting: function()
     {
+        console.log("stopInspecting");
         isInspecting = false;
 
         if (outlineVisible) this.hideOutline();
@@ -17284,6 +17294,7 @@ Firebug.Inspector =
 
     onInspectingClick: function(e)
     {
+        console.log("onInspectingClick");
         fbInspectFrame.style.display = "none";
         var targ = Firebug.browser.getElementFromPoint(e.clientX, e.clientY);
         fbInspectFrame.style.display = "block";
@@ -17296,12 +17307,18 @@ Firebug.Inspector =
         // Avoid looking at text nodes in Opera
         while (targ.nodeType != 1) targ = targ.parentNode;
 
-        //Firebug.Console.log(targ);
+
+
+        var currStyle = Firebug.browser.getStyle(targ);
+
+        console.log(targ);  // debug zhanggeng
+        console.log(targ.style);  // debug zhanggeng
         Firebug.Inspector.stopInspecting();
     },
 
     onInspecting: function(e)
     {
+        //console.log("onInspecting");
         if (new Date().getTime() - lastInspecting > 30)
         {
             fbInspectFrame.style.display = "none";
@@ -17321,6 +17338,10 @@ Firebug.Inspector =
             //Firebug.Console.log(e.clientX, e.clientY, targ);
             Firebug.Inspector.drawOutline(targ);
 
+            console.log("targ = " + targ); // debug zg
+            //console.log("targ = " + Windows.getComputedStyle(targ)); // debug zg
+
+
             if (ElementCache(targ))
             {
                 var target = ""+ElementCache.key(targ);
@@ -17328,7 +17349,8 @@ Firebug.Inspector =
                 {
                     inspectorTS = new Date().getTime();
 
-                    Firebug.HTML.selectTreeNode(""+ElementCache.key(targ))
+                    Firebug.HTML.selectTreeNode(""+ElementCache.key(targ));
+
                 };
 
                 if (inspectorTimer)
@@ -18378,6 +18400,8 @@ Firebug.ConsolePanel.prototype = extend(Firebug.Panel,
     // TODO: xxxpedro console2
     onMouseMove: function(event)
     {
+        //console.log("onMouseMove");  // debug zg
+
         var target = event.srcElement || event.target;
 
         var object = getAncestorByClass(target, "objectLink-element");
@@ -23489,6 +23513,7 @@ Firebug.HTML = extend(Firebug.Module,
         }
 
         selectElement(node);
+        console.log("selectTreeNode node = " + node);
 
         // TODO: xxxpedro
         if (fbPanel1)
@@ -23643,7 +23668,6 @@ var selectElement= function selectElement(e)
 
         var target = ElementCache.get(e.id);
         var selectedSidePanel = Firebug.chrome.getPanel("HTML").sidePanelBar.selectedPanel;
-
         var stack = FirebugChrome.htmlSelectionStack;
 
         stack.unshift(target);
@@ -23656,6 +23680,7 @@ var selectElement= function selectElement(e)
             selectedSidePanelTS = new Date().getTime();
 
             selectedSidePanel.select(target, true);
+            console.log("selectedSidePanel.select target = " + target);
         };
 
         if (selectedSidePanelTimer)
@@ -23751,6 +23776,8 @@ var hoverElementTS = 0;
 
 Firebug.HTML.onListMouseMove = function onListMouseMove(e)
 {
+    //console.log("onListMouseMove");  // debug zg
+
     try
     {
         e = e || event || window;
@@ -23807,6 +23834,8 @@ Firebug.HTML.onListMouseMove = function onListMouseMove(e)
             hoverElementTS = new Date().getTime();
             hoverElement = el;
             FBL.Firebug.Inspector.drawBoxModel(el);
+
+
         }
     }
     catch(E)
