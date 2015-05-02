@@ -281,7 +281,12 @@ var tabs = (function (popupModule) {
         } else {
             // Send a message to the webview so it can get a reference to
             // the embedder
-            var data = {'name': this.name};
+            var data = {
+                'type': 'getTitle',
+                'name': this.name
+            };
+
+            console.log(window);
             this.webview.contentWindow.postMessage(JSON.stringify(data), '*');
         }
     };
@@ -330,8 +335,6 @@ var tabs = (function (popupModule) {
                 );
             }
         );
-
-
     };
 
     Tab.prototype.goBack = function () {

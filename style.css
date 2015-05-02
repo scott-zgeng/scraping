@@ -21,7 +21,7 @@ button {
 
 #editor {
   position: absolute;
-  top: 29px;
+  top: 24px;
   bottom: 24px;
   left: 0;
   right: 0;
@@ -34,7 +34,7 @@ button {
   position: absolute;
   bottom: 0;
   background: #eee;
-  padding: 2px;
+  padding: 0px;
   height: 20px;
   left: 0;
   right: 0;
@@ -44,7 +44,13 @@ button {
   font-weight: bold;
 }
 
-.buttons {
-  padding: 2px;
-  height: 25px;
+.button {
+  padding: 3px 5px 3px 6px;
+  border: 1px solid #fff;
+  border-bottom: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+  text-decoration: none;
+  display: block;
+  float: left;
+  border-collapse: collapse;
 }

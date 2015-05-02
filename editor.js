@@ -136,6 +136,11 @@ function handleSaveButton() {
     }
 }
 
+
+function handleDialogButton() {
+
+}
+
 function initContextMenu() {
     chrome.contextMenus.removeAll(function () {
         for (var snippetName in SNIPPETS) {
@@ -163,10 +168,13 @@ onload = function () {
     newButton = document.getElementById("new");
     openButton = document.getElementById("open");
     saveButton = document.getElementById("save");
+    dialogButton = document.getElementById("dialog");
 
     newButton.addEventListener("click", handleNewButton);
     openButton.addEventListener("click", handleOpenButton);
     saveButton.addEventListener("click", handleSaveButton);
+
+    dialogButton.addEventListener("click", handleDialogButton);
 
     editor = CodeMirror(
         document.getElementById("editor"),
@@ -187,6 +195,8 @@ onload = function () {
 
     newFile();
     onresize();
+
+    //editor.setValue("this is test");
 };
 
 onresize = function () {

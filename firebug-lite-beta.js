@@ -6668,6 +6668,8 @@ Firebug.Panel =
     order: 2147483647,
     statusSeparator: "<",
 
+
+
     create: function(context, doc)
     {
         this.hasSidePanel = parentPanelMap.hasOwnProperty(this.name);
@@ -6814,6 +6816,10 @@ Firebug.Panel =
         this.statusBarBox = null;
         this.statusBarNode = null;
 
+
+
+
+
         //if (this.panelNode)
         //    delete this.panelNode.ownerPanel;
 
@@ -6857,6 +6863,10 @@ Firebug.Panel =
 
         // xxxpedro contextMenu
         addEvent(this.containerNode, "contextmenu", this.onContextMenu);
+
+
+
+
 
 
         /// TODO: xxxpedro infoTip Hack
@@ -7035,6 +7045,9 @@ Firebug.Panel =
             //    dispatch(uiListeners, "onPanelSelect", [object, this]);  // TODO: make Firebug.chrome a uiListener
         }
     },
+
+
+
 
     updateSelection: function(object)
     {
@@ -17240,7 +17253,7 @@ Firebug.Inspector =
 
     toggleInspect: function()
     {
-        console.log("toggleInspect");
+        //console.log("toggleInspect");
 
 
         if (isInspecting)
@@ -17256,7 +17269,7 @@ Firebug.Inspector =
 
     startInspecting: function()
     {
-        console.log("startInspecting");
+        //console.log("startInspecting");
 
         isInspecting = true;
 
@@ -17277,12 +17290,15 @@ Firebug.Inspector =
 
     stopInspecting: function()
     {
-        console.log("stopInspecting");
+        //console.log("stopInspecting");
         isInspecting = false;
 
         if (outlineVisible) this.hideOutline();
+
+
         removeEvent(fbInspectFrame, "mousemove", Firebug.Inspector.onInspecting);
         removeEvent(fbInspectFrame, "mousedown", Firebug.Inspector.onInspectingClick);
+
 
         destroyInspectorFrame();
 
@@ -17294,7 +17310,7 @@ Firebug.Inspector =
 
     onInspectingClick: function(e)
     {
-        console.log("onInspectingClick");
+        //console.log("onInspectingClick");
         fbInspectFrame.style.display = "none";
         var targ = Firebug.browser.getElementFromPoint(e.clientX, e.clientY);
         fbInspectFrame.style.display = "block";
@@ -17309,10 +17325,22 @@ Firebug.Inspector =
 
 
 
-        var currStyle = Firebug.browser.getStyle(targ);
+        // ============= debug zg =============
+        if (ElementCache(targ)) {
+            var target = "" + ElementCache.key(targ);
 
-        console.log(targ);  // debug zhanggeng
-        console.log(targ.style);  // debug zhanggeng
+            var selectedSidePanel = Firebug.chrome.getPanel("HTML").sidePanelBar.selectedPanel;
+            var lastStyle = selectedSidePanel.selectLastStyle(target);
+            console.log("selected style = " + lastStyle);
+            var message = {
+                'type': 'getStyle',
+                'style': lastStyle
+            };
+            embedder.postMessage(JSON.stringify(message), '*');
+        }
+        // ============= debug zg end =============
+
+
         Firebug.Inspector.stopInspecting();
     },
 
@@ -17338,9 +17366,6 @@ Firebug.Inspector =
             //Firebug.Console.log(e.clientX, e.clientY, targ);
             Firebug.Inspector.drawOutline(targ);
 
-            console.log("targ = " + targ); // debug zg
-            //console.log("targ = " + Windows.getComputedStyle(targ)); // debug zg
-
 
             if (ElementCache(targ))
             {
@@ -17350,7 +17375,6 @@ Firebug.Inspector =
                     inspectorTS = new Date().getTime();
 
                     Firebug.HTML.selectTreeNode(""+ElementCache.key(targ));
-
                 };
 
                 if (inspectorTimer)
@@ -23513,7 +23537,8 @@ Firebug.HTML = extend(Firebug.Module,
         }
 
         selectElement(node);
-        console.log("selectTreeNode node = " + node);
+
+
 
         // TODO: xxxpedro
         if (fbPanel1)
@@ -23678,9 +23703,7 @@ var selectElement= function selectElement(e)
         var lazySelect = function()
         {
             selectedSidePanelTS = new Date().getTime();
-
             selectedSidePanel.select(target, true);
-            console.log("selectedSidePanel.select target = " + target);
         };
 
         if (selectedSidePanelTimer)
@@ -23694,7 +23717,10 @@ var selectElement= function selectElement(e)
         else
             selectedSidePanelTimer = setTimeout(lazySelect, 150);
     }
-}
+};
+
+
+
 
 
 // ************************************************************************************************
@@ -26327,6 +26353,7 @@ CSSElementPanel.prototype = extend(Firebug.CSSStyleSheetPanel.prototype,
         this.getInheritedRules(element, sections, usedProps);
         this.getElementRules(element, rules, usedProps);
 
+
         if (rules.length || sections.length)
         {
             var inheritLabel = "Inherited from"; // $STR("InheritedFrom");
@@ -26621,6 +26648,22 @@ CSSElementPanel.prototype = extend(Firebug.CSSStyleSheetPanel.prototype,
             return;
 
         this.updateView(element);
+    },
+
+
+    selectLastStyle: function(id)
+    {
+        var element = ElementCache.get(id);
+
+        var inspectedRules = getElementCSSRules(element);
+
+        if (inspectedRules && inspectedRules.length > 0) {
+
+            var ruleId = inspectedRules[0];
+            var ruleData = CSSRuleMap[ruleId];
+
+            return ruleData.rule.selectorText;
+        }
     },
 
     updateOption: function(name, value)

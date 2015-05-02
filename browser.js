@@ -91,18 +91,34 @@ var browser = (function (configModule, tabsModule) {
                     return browser.doNewTab(e);
                 });
 
-            window.addEventListener('message', function (e) {
-                if (e.data) {
-                    var data = JSON.parse(e.data);
-                    if (data.name && data.title) {
-                        browser.tabs.setLabelByName(data.name, data.title);
-                    } else {
-                        console.warn(
-                            'Warning: Expected message from guest to contain {name, title}, but got:',
-                            data);
-                    }
-                } else {
+
+            window.top.addEventListener('message', function (e) {
+
+                if (!e.data) {
                     console.warn('Warning: Message from guest contains no data');
+                    return;
+                }
+
+                console.log("has message " + e.data);
+                var data = JSON.parse(e.data);
+                if (!data.type) {
+                    console.warn('Warning: Message from guest contains no type');
+                    return;
+                }
+
+                switch (data.type) {
+                    case 'getTitle':
+                        if (data.name && data.title) {
+                            browser.tabs.setLabelByName(data.name, data.title);
+                        }
+                        break;
+                    case 'getStyle':
+                        // process the get selector operation
+                        console.log("selected style: " + data.style);
+                        break;
+                    default:
+                        console.warn('Warning: invalid type' + data.type);
+                        return;
                 }
             });
 

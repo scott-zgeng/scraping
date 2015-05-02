@@ -31,9 +31,8 @@
     "partitions": [
       {
         "name": "static",
-        "accessible_resources": ["*.js"]
+        "accessible_resources": ["*.html", "*.css"]
       }
     ]
   }
-
 }

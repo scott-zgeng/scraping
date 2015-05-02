@@ -1,63 +1,67 @@
+
 var webviewTitleInjectionComplete = false;
+var embedder = null;
+
 (function () {
     // Prevent multiple injection
-    if (!webviewTitleInjectionComplete) {
-        var embedder = null;
-        var tabName = null;
-        var listenersAreBound = false;
-        var title = null;
-        var postTitle = (function () {
-            return function (e) {
-                title = document.title;
-                var data = {
-                    'name': tabName,
-                    'title': title || '[no title]'
-                };
-                embedder.postMessage(JSON.stringify(data), '*');
+    if (webviewTitleInjectionComplete)
+        return;
+
+    var tabName = null;
+    var listenersAreBound = false;
+    var title = null;
+    var postTitle = (function () {
+        return function (e) {
+            title = document.title;
+            var data = {
+                'type': 'getTitle',
+                'name': tabName,
+                'title': title || '[no title]'
             };
-        }());
-        var bindEmbedder = function (e) {
-            embedder = e.source;
+            embedder.postMessage(JSON.stringify(data), '*');
         };
-        var bindTabName = function (e) {
-            if (e.data) {
-                var data = JSON.parse(e.data);
-                if (data.name) {
-                    tabName = data.name;
-                } else {
-                    console.warn('Warning: Message from embedder contains no tab name');
-                }
+    }());
+    var bindEmbedder = function (e) {
+        embedder = e.source;
+    };
+    var bindTabName = function (e) {
+        if (e.data) {
+            var data = JSON.parse(e.data);
+            if (data.name) {
+                tabName = data.name;
             } else {
-                console.warn('Warning: Message from embedder contains no data');
+                console.warn('Warning: Message from embedder contains no tab name');
             }
-        };
+        } else {
+            console.warn('Warning: Message from embedder contains no data');
+        }
+    };
 
-        // Wait for message that gives us a reference to the embedder
-        window.addEventListener('message', function (e) {
-            if (!listenersAreBound) {
-                // Bind data
-                bindEmbedder(e);
-                bindTabName(e);
+    // Wait for message that gives us a reference to the embedder
+    window.addEventListener('message', function (e) {
 
-                // Notify the embedder of every title change
-                var titleElement = document.querySelector('title');
-                if (titleElement) {
-                    titleElement.addEventListener('change', postTitle);
-                } else {
-                    console.warn('Warning: No <title> element to bind to');
-                    postTitle();
-                }
+        if (!listenersAreBound) {
+            // Bind data
+            bindEmbedder(e);
+            bindTabName(e);
 
-                // Ensure initial title notification
-                if (title === null) {
-                    postTitle();
-                }
-
-                listenersAreBound = true;
+            // Notify the embedder of every title change
+            var titleElement = document.querySelector('title');
+            if (titleElement) {
+                titleElement.addEventListener('change', postTitle);
+            } else {
+                console.warn('Warning: No <title> element to bind to');
+                postTitle();
             }
-        });
-    }
+
+            // Ensure initial title notification
+            if (title === null) {
+                postTitle();
+            }
+
+            listenersAreBound = true;
+        }
+    });
+
 }());
 
-
-console.log("webviewTitleInjectionComplete");
