@@ -1,19 +1,27 @@
 <html>
 <head>
     <link rel="stylesheet" href="browser.css">
+
+
     <script src="config.js"></script>
     <script src="popup.js"></script>
     <script src="tabs.js"></script>
     <script src="browser.js"></script>
     <script src="browser_main.js"></script>
 
-    <script src="jquery-1.11.2.js"></script>
-    
+
+
+    <link rel="stylesheet" href="jquery-ui.css">
+    <script src="jquery.js"></script>
+    <script src="jquery-ui.js"></script>
+
+
+
 </head>
 <body>
 <div id="controls">
 
-    <div id="tab-controls">
+    <div id="tab-controls" >
         <ul id="tab-container">
             <li id="new-tab"><a href="#new-tab">+</a></li>
         </ul>
@@ -25,6 +33,7 @@
         <button id="forward" title="Go Forward">&#9654;</button>
         <button id="home" title="Go Home">&#8962;</button>
         <button id="reload" title="Reload">&#10227;</button>
+
 
         <form id="location-form">
             <div id="center-column">
@@ -38,6 +47,15 @@
 
 <div id="content-container">
 </div>
+
+
+
+<div id="insertDialog" title="info">
+    <p id = "selectedStyle"></p>
+</div>
+
+
+
 
 </body>
 </html>

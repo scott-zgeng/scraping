@@ -319,6 +319,7 @@ var tabs = (function (popupModule) {
     };
 
     Tab.prototype.inspect = function () {
+
         console.log("Tab inspect");
 
         var that = this;

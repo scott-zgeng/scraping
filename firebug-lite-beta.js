@@ -17334,7 +17334,7 @@ Firebug.Inspector =
             console.log("selected style = " + lastStyle);
             var message = {
                 'type': 'getStyle',
-                'style': lastStyle
+                'style': lastStyle || ""
             };
             embedder.postMessage(JSON.stringify(message), '*');
         }

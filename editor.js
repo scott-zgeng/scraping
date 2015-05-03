@@ -2,6 +2,7 @@ var newButton, openButton, saveButton;
 var editor;
 var fileEntry;
 var hasWriteAccess;
+var initData = '<?xml version="1.0" encoding="UTF-8"?>\n';
 
 function errorHandler(e) {
     var msg = "";
@@ -121,7 +122,7 @@ var onChosenFileToSave = function (theFileEntry) {
 
 function handleNewButton() {
     newFile();
-    editor.setValue("");
+    editor.setValue(initData);
 }
 
 function handleOpenButton() {
@@ -138,7 +139,6 @@ function handleSaveButton() {
 
 
 function handleDialogButton() {
-
 }
 
 function initContextMenu() {
@@ -196,7 +196,7 @@ onload = function () {
     newFile();
     onresize();
 
-    //editor.setValue("this is test");
+    editor.setValue(initData);
 };
 
 onresize = function () {
@@ -210,3 +210,11 @@ onresize = function () {
 
     editor.refresh();
 }
+
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+    var data = editor.getValue();
+    data += message;
+    editor.setValue(data);
+});
+

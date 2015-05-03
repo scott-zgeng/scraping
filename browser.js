@@ -113,8 +113,20 @@ var browser = (function (configModule, tabsModule) {
                         }
                         break;
                     case 'getStyle':
+
                         // process the get selector operation
+                        $("#selectedStyle").text(data.style);
+                        $("#insertDialog").dialog("open");
+
+                        //event.preventDefault();
                         console.log("selected style: " + data.style);
+
+                        var newNode = "<selector>" + data.style + "</selector>";
+
+                        var parser=new DOMParser();
+                        var xmlDoc = parser.parseFromString(newNode,"text/xml");
+
+                        //append_editer_text(data.style);
                         break;
                     default:
                         console.warn('Warning: invalid type' + data.type);
@@ -132,7 +144,32 @@ var browser = (function (configModule, tabsModule) {
                 tab.navigateTo(configModule.homepage);
             }
             browser.tabs.selectTab(tab);
+
+            browser.initDialog();
+
         }(this));
+    };
+
+    Browser.prototype.initDialog = function() {
+        $("#insertDialog").dialog({
+            autoOpen: false,
+            width: 400,
+            buttons: [
+                {
+                    text: "Ok",
+                    click: function() {
+                        chrome.runtime.sendMessage($("#selectedStyle").text());
+                        $(this).dialog( "close" );
+                    }
+                },
+                {
+                    text: "Cancel",
+                    click: function() {
+                        $(this).dialog( "close" );
+                    }
+                }
+            ]
+        });
     };
 
     Browser.prototype.doLayout = function (e) {
