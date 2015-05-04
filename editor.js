@@ -122,7 +122,25 @@ var onChosenFileToSave = function (theFileEntry) {
 
 function handleNewButton() {
     newFile();
-    editor.setValue(initData);
+
+
+    var doc = document.implementation.createDocument("", "", null);
+    var site = doc.createElement("site");
+    site.setAttribute("name", "www.sohu.com");
+    doc.appendChild(site);
+
+
+    var module = doc.createElement("module");
+    site.appendChild(module);
+
+    var serializer = new XMLSerializer;
+    var text = serializer.serializeToString(doc);
+
+    editor.setValue(initData + text);
+
+    var lineCount = editor.lineCount();
+    editor.autoFormatRange({line:0,ch:0}, {line:lineCount+1, ch:0});
+
 }
 
 function handleOpenButton() {
