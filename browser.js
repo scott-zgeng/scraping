@@ -151,16 +151,14 @@ var browser = (function (configModule, tabsModule) {
     };
 
     Browser.prototype.initDialog = function() {
+        var browser = this;
         $("#insertDialog").dialog({
             autoOpen: false,
             width: 400,
             buttons: [
                 {
                     text: "Ok",
-                    click: function() {
-                        chrome.runtime.sendMessage($("#selectedStyle").text());
-                        $(this).dialog( "close" );
-                    }
+                    click: browser.onDialogOK
                 },
                 {
                     text: "Cancel",
@@ -170,6 +168,18 @@ var browser = (function (configModule, tabsModule) {
                 }
             ]
         });
+    };
+
+    Browser.prototype.onDialogOK = function () {
+        var message = {};
+        message.catalog = "news";
+        message.name = "test";
+        message.extractor = "css";
+        message.type = "text";
+        message.selector = $("#selectedStyle").text();
+
+        chrome.runtime.sendMessage(message);
+        $(this).dialog( "close" );
     };
 
     Browser.prototype.doLayout = function (e) {
@@ -195,11 +205,14 @@ var browser = (function (configModule, tabsModule) {
 
     // New window that is NOT triggered by existing window
     Browser.prototype.doNewTab = function (e) {
-        var tab = this.tabs.append(dce('webview'));
+        var webview = dce('webview');
+        webview.setAttribute('partition', 'static');
+        var tab = this.tabs.append(webview);
         tab.navigateTo(configModule.homepage);
         this.tabs.selectTab(tab);
         return tab;
     };
+
 
     Browser.prototype.doKeyDown = function (e) {
         if (e.ctrlKey) {

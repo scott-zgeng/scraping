@@ -4,7 +4,6 @@ var mainBrowser = null;
         return document.querySelector(str);
     };
 
-
     window.addEventListener('load', function (e) {
         mainBrowser = new browserModule.Browser(
             query('#controls'),

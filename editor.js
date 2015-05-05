@@ -1,8 +1,13 @@
-var newButton, openButton, saveButton;
+var newButton, openButton, saveButton, dialogButton;
 var editor;
 var fileEntry;
 var hasWriteAccess;
-var initData = '<?xml version="1.0" encoding="UTF-8"?>\n';
+
+var myDoc;
+var serializer;
+var parser;
+var currURL = "";
+
 
 function errorHandler(e) {
     var msg = "";
@@ -75,6 +80,10 @@ function readFileIntoEditor(theFileEntry) {
             fileReader.onload = function (e) {
                 handleDocumentChange(theFileEntry.fullPath);
                 editor.setValue(e.target.result);
+
+                myDoc = parser.parseFromString(e.target.result, "text/xml");
+
+                updateView();
             };
 
             fileReader.onerror = function (e) {
@@ -105,14 +114,16 @@ function writeEditorToFile(theFileEntry) {
     }, errorHandler);
 }
 
-var onChosenFileToOpen = function (theFileEntry) {
-    setFile(theFileEntry, false);
-    readFileIntoEditor(theFileEntry);
-};
+//var onChosenFileToOpen = function (theFileEntry) {
+//    setFile(theFileEntry, false);
+//    readFileIntoEditor(theFileEntry);
+//};
 
 var onWritableFileToOpen = function (theFileEntry) {
     setFile(theFileEntry, true);
     readFileIntoEditor(theFileEntry);
+
+
 };
 
 var onChosenFileToSave = function (theFileEntry) {
@@ -120,31 +131,29 @@ var onChosenFileToSave = function (theFileEntry) {
     writeEditorToFile(theFileEntry);
 };
 
-function handleNewButton() {
-    newFile();
 
-
-    var doc = document.implementation.createDocument("", "", null);
-    var site = doc.createElement("site");
-    site.setAttribute("name", "www.sohu.com");
-    doc.appendChild(site);
-
-
-    var module = doc.createElement("module");
-    site.appendChild(module);
-
-    var serializer = new XMLSerializer;
-    var text = serializer.serializeToString(doc);
-
-    editor.setValue(initData + text);
-
+var updateView = function () {
+    var text = serializer.serializeToString(myDoc);
+    editor.setValue(text);
     var lineCount = editor.lineCount();
     editor.autoFormatRange({line:0,ch:0}, {line:lineCount+1, ch:0});
+};
 
+
+function handleNewButton() {
+    newFile();
+    myDoc = document.implementation.createDocument("", "", null);
+    var site = myDoc.createElement("site");
+    site.setAttribute("name", "www.sohu.com");
+    myDoc.appendChild(site);
+
+    updateView();
 }
 
 function handleOpenButton() {
     chrome.fileSystem.chooseEntry({type: 'openWritableFile'}, onWritableFileToOpen);
+
+
 }
 
 function handleSaveButton() {
@@ -159,29 +168,29 @@ function handleSaveButton() {
 function handleDialogButton() {
 }
 
-function initContextMenu() {
-    chrome.contextMenus.removeAll(function () {
-        for (var snippetName in SNIPPETS) {
-            chrome.contextMenus.create({
-                title: snippetName,
-                id: snippetName,
-                contexts: ['all']
-            });
-        }
-    });
-}
+//function initContextMenu() {
+//    chrome.contextMenus.removeAll(function () {
+//        for (var snippetName in SNIPPETS) {
+//            chrome.contextMenus.create({
+//                title: snippetName,
+//                id: snippetName,
+//                contexts: ['all']
+//            });
+//        }
+//    });
+//}
 
-chrome.contextMenus.onClicked.addListener(function (info) {
-    // Context menu command wasn't meant for us.
-    if (!document.hasFocus()) {
-        return;
-    }
-
-    editor.replaceSelection(SNIPPETS[info.menuItemId]);
-});
+//chrome.contextMenus.onClicked.addListener(function (info) {
+//    // Context menu command wasn't meant for us.
+//    if (!document.hasFocus()) {
+//        return;
+//    }
+//
+//    editor.replaceSelection(SNIPPETS[info.menuItemId]);
+//});
 
 onload = function () {
-    initContextMenu();
+    //initContextMenu();
 
     newButton = document.getElementById("new");
     openButton = document.getElementById("open");
@@ -191,7 +200,6 @@ onload = function () {
     newButton.addEventListener("click", handleNewButton);
     openButton.addEventListener("click", handleOpenButton);
     saveButton.addEventListener("click", handleSaveButton);
-
     dialogButton.addEventListener("click", handleDialogButton);
 
     editor = CodeMirror(
@@ -214,7 +222,8 @@ onload = function () {
     newFile();
     onresize();
 
-    editor.setValue(initData);
+
+    initEditor();
 };
 
 onresize = function () {
@@ -227,12 +236,62 @@ onresize = function () {
     scrollerElement.style.height = containerHeight + 'px';
 
     editor.refresh();
-}
+};
 
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
-    var data = editor.getValue();
-    data += message;
-    editor.setValue(data);
-});
+processMsg = function(message) {
+
+    var module = myDoc.querySelector("#"+message.catalog);
+    if (!module) {
+        module = myDoc.createElement("module");
+        module.id = message.catalog;
+    }
+
+    var accept = myDoc.createElement("accept");
+    module.appendChild(accept);
+
+    var field = myDoc.createElement("field");
+    field.setAttribute("name", message.name);
+    module.appendChild(field);
+
+    var extractor = myDoc.createElement("extractor");
+    extractor.setAttribute("name", message.extractor);
+    field.appendChild(extractor);
+
+    var type = myDoc.createElement("type");
+    type.innerHTML = message.type;
+    extractor.appendChild(type);
+
+    var selector = myDoc.createElement("selector");
+    selector.innerHTML = message.selector;
+    extractor.appendChild(selector);
+
+    myDoc.querySelector("site").appendChild(module);
+
+    updateView();
+};
+
+
+initEditor = function() {
+    serializer = new XMLSerializer;
+    parser = new DOMParser;
+
+
+    myDoc = document.implementation.createDocument("", "", null);
+    //myDoc.xmlEncoding("UTF-8");
+    //myDoc.xmlVersion(1);
+    //myDoc.
+
+    var site = myDoc.createElement("site");
+    site.setAttribute("name", "www.sohu.com");
+    myDoc.appendChild(site);
+
+    updateView();
+
+    // note(zhanggeng): 用于接收来自主窗口的消息
+    chrome.runtime.onMessage.addListener(processMsg);
+};
+
+
+
 
