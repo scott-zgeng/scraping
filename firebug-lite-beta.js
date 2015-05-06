@@ -26651,10 +26651,24 @@ CSSElementPanel.prototype = extend(Firebug.CSSStyleSheetPanel.prototype,
     },
 
 
-    selectLastStyle: function(id)
-    {
-        var element = ElementCache.get(id);
 
+
+    getParentStyle: function(element)
+    {
+        var parent = element.parentNode;
+        if (parent && parent.nodeType == 1)
+        {
+            var style = this.getLastStyle(parent);
+            if (style) return style;
+
+            return this.getParentStyle(parent);
+        }
+
+        return null;
+    },
+
+
+    getLastStyle: function(element) {
         var inspectedRules = getElementCSSRules(element);
 
         if (inspectedRules && inspectedRules.length > 0) {
@@ -26664,6 +26678,19 @@ CSSElementPanel.prototype = extend(Firebug.CSSStyleSheetPanel.prototype,
 
             return ruleData.rule.selectorText;
         }
+
+        return null;
+    },
+
+    selectLastStyle: function(id)
+    {
+        var element = ElementCache.get(id);
+        var style = this.getLastStyle(element);
+        if (!style) {
+            return this.getParentStyle(element);
+        }
+
+        return style;
     },
 
     updateOption: function(name, value)
