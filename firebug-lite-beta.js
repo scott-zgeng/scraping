@@ -26650,47 +26650,27 @@ CSSElementPanel.prototype = extend(Firebug.CSSStyleSheetPanel.prototype,
         this.updateView(element);
     },
 
-
-
-
-    getParentStyle: function(element)
+    getAllStyle: function(element, styles)
     {
-        var parent = element.parentNode;
-        if (parent && parent.nodeType == 1)
-        {
-            var style = this.getLastStyle(parent);
-            if (style) return style;
-
-            return this.getParentStyle(parent);
-        }
-
-        return null;
+	this.getCurrentStyle(element, styles);
+	var parent = element.parentNode;
+	if (parent && parent.nodeType == 1) {            
+		this.getAllStyle(parent, styles);
+	}
     },
 
-
-    getLastStyle: function(element) {
-        var inspectedRules = getElementCSSRules(element);
-
-        if (inspectedRules && inspectedRules.length > 0) {
-
-            var ruleId = inspectedRules[0];
-            var ruleData = CSSRuleMap[ruleId];
-
-            return ruleData.rule.selectorText;
-        }
-
-        return null;
+    getCurrentStyle: function(element, styles) {
+        var inspectedRules = getElementCSSRules(element);        
+        for (var i = 0; i < inspectedRules.length; i++) {
+		var ruleId = inspectedRules[0];
+		styles.push(CSSRuleMap[ruleId].rule.selectorText);
+        }        
     },
 
-    selectLastStyle: function(id)
+    selectStyle: function(id, styles)
     {
         var element = ElementCache.get(id);
-        var style = this.getLastStyle(element);
-        if (!style) {
-            return this.getParentStyle(element);
-        }
-
-        return style;
+        this.getAllStyle(element, styles);        
     },
 
     updateOption: function(name, value)
