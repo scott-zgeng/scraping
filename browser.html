@@ -1,7 +1,8 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+
 <head>
     <link rel="stylesheet" href="browser.css">
-
 
     <script src="config.js"></script>
     <script src="popup.js"></script>
@@ -9,60 +10,114 @@
     <script src="browser.js"></script>
     <script src="browser_main.js"></script>
 
+    <link rel="stylesheet" href="bootstrap.css">
+    <!--<link rel="stylesheet" href="bootstrap-theme.css">-->
 
-
-    <link rel="stylesheet" href="jquery-ui.css">
     <script src="jquery.js"></script>
-    <script src="jquery-ui.js"></script>
+    <script src="bootstrap.js"></script>
 
 
+
+    <!--<script src="codemirror.js"></script>-->
+    <!--<script src="css.js"></script>-->
+    <!--<script src="xml.js"></script>-->
+    <!--<script src="javascript.js"></script>-->
+    <!--<script src="formatting.js"></script>-->
+
+    <!--<script src="editor.js"></script>-->
+
+    <!--<link rel="stylesheet" href="style.css">-->
+    <!--<link rel="stylesheet" href="codemirror.css">-->
+    <!--<link rel="stylesheet" href="lesser-dark.css">-->
+
+
+
+    <!--<style type="text/css"> #scraping-nav { background:#339966;  }</style>-->
 
 </head>
+
+
 <body>
-<div id="controls">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1" id="scraping-nav">
+            <ul class="nav nav-pills nav-stacked" role="tablist">
+                <li role="presentation" class="active"><a href="#main-nav-browser" data-toggle="tab">Browser</a></li>
+                <li role="presentation"><a href="#main-nav-profile" data-toggle="tab">Profile</a></li>
+                <li role="presentation"><a href="#main-nav-export" data-toggle="tab">Export</a></li>
+                <li role="presentation"><a href="#main-nav-log" data-toggle="tab">Log</a></li>
+            </ul>
+        </div>
+        <div class="col-md-11" id="scraping-main">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="main-nav-browser">
+                    <div id="browser-frame-controls">
+                        <div id="browser-tab-controls" >
+                            <ul id="browser-tab-container">
+                                <li id="new-tab"><a href="#new-tab">+</a></li>
+                            </ul>
+                        </div>
 
-    <div id="tab-controls" >
-        <ul id="tab-container">
-            <li id="new-tab"><a href="#new-tab">+</a></li>
-        </ul>
-    </div>
-
-    <div id="browser-controls">
-        <button id="inspect" title="Inspect Element">&#8284;</button>
-        <button id="back" title="Go Back">&#9664;</button>
-        <button id="forward" title="Go Forward">&#9654;</button>
-        <button id="home" title="Go Home">&#8962;</button>
-        <button id="reload" title="Reload">&#10227;</button>
+                        <div id="browser-view-controls">
+                            <button id="inspect" title="Inspect Element">
+                                <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                            </button>
 
 
-        <form id="location-form">
-            <div id="center-column">
-                <input id="location" type="text" value="">
+                            <button id="back" title="Go Back">
+                                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                            </button>
+
+                            <button id="forward" title="Go Forward">
+                                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                            </button>
+
+                            <button id="home" title="Go Home">
+                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                            </button>
+
+                            <button id="reload" title="Reload">
+                                <span id="reload_inner" class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                            </button>
+
+
+                                    <!--<li>-->
+                                    <!--<li></li>-->
+
+                                    <!--<li></li>-->
+                                    <!--<li></li>-->
+
+
+
+
+                            <form id="location-form">
+                                <div id="center-column">
+                                    <input id="location" type="text" value="">
+                                </div>
+                                <input type="submit" value="Go">
+                            </form>
+
+                        </div>
+
+                        <div id="browser-content-container"></div>
+                    </div>
+
+
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade" id="main-nav-profile">scraping-profile</div>
+                <div role="tabpanel" class="tab-pane fade" id="main-nav-export">
+                    <div id="editor"></div>
+                    <div class="info">
+                        <label>Filename: </label><span id="title"></span>
+                        <label>Mode: </label><span id="mode"></span>
+                    </div>
+
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="main-nav-log">debug-log</div>
             </div>
-            <input type="submit" value="Go">
-        </form>
+        </div>
     </div>
-
-</div>
-
-<div id="content-container">
-</div>
-
-
-
-<div id="insertDialog" title="info">
-    <p>extractor=
-    <select id="selectmenu1">
-        <option selected="selected">css</option>
-        <option>article</option>
-    </select>
-    </p>
-    <p>type=<select id="selectmenu2">
-        <option selected="selected">text</option>
-        <option>html</option>
-    </select>
-    </p>
-    <p id = "selectedStyle"></p>
 </div>
 
 

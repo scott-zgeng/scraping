@@ -35,6 +35,33 @@ var browser = (function (configModule, tabsModule) {
         this.init();
     };
 
+
+    Browser.prototype.onProcessStyle = function (styles) {
+
+        $('#myModal').modal();
+        // process the get selector operation
+        //$("#selector-menu").empty();
+        //for (var i = 0;  i < styles.length; i++) {
+        //    $("#selector-menu").append("<option>" + styles[i] + "</option>");
+        //}
+        //
+        //$("#insertDialog").dialog("open");
+    };
+
+
+    Browser.prototype.onNewRule = function () {
+        var message = {};
+        message.catalog = "news";
+        message.name = "test";
+        message.extractor = "css";
+        message.type = "text";
+        message.selector = $("#selectedStyle").text();
+
+        chrome.runtime.sendMessage(message);
+    };
+
+
+
     Browser.prototype.init = function () {
         (function (browser) {
             window.addEventListener('resize', function (e) {
@@ -106,6 +133,9 @@ var browser = (function (configModule, tabsModule) {
                     return;
                 }
 
+
+
+
                 switch (data.type) {
                     case 'getTitle':
                         if (data.name && data.title) {
@@ -113,20 +143,7 @@ var browser = (function (configModule, tabsModule) {
                         }
                         break;
                     case 'getStyle':
-
-                        // process the get selector operation
-                        $("#selectedStyle").text(data.style);
-                        $("#insertDialog").dialog("open");
-
-                        //event.preventDefault();
-                        console.log("selected style: " + data.style);
-
-                        var newNode = "<selector>" + data.style + "</selector>";
-
-                        var parser=new DOMParser();
-                        var xmlDoc = parser.parseFromString(newNode,"text/xml");
-
-                        //append_editer_text(data.style);
+                        browser.onProcessStyle(data.styles);
                         break;
                     default:
                         console.warn('Warning: invalid type' + data.type);
@@ -158,7 +175,10 @@ var browser = (function (configModule, tabsModule) {
             buttons: [
                 {
                     text: "Ok",
-                    click: browser.onDialogOK
+                    click: function() {
+                        browser.onNewRule();
+                        $(this).dialog( "close" );
+                    }
                 },
                 {
                     text: "Cancel",
@@ -170,37 +190,35 @@ var browser = (function (configModule, tabsModule) {
         });
     };
 
-    Browser.prototype.onDialogOK = function () {
-        var message = {};
-        message.catalog = "news";
-        message.name = "test";
-        message.extractor = "css";
-        message.type = "text";
-        message.selector = $("#selectedStyle").text();
-
-        chrome.runtime.sendMessage(message);
-        $(this).dialog( "close" );
-    };
 
     Browser.prototype.doLayout = function (e) {
-        var controlsHeight = this.controlsContainer.offsetHeight;
-        var windowWidth = document.documentElement.clientWidth;
-        var windowHeight = document.documentElement.clientHeight;
-        var contentWidth = windowWidth;
-        var contentHeight = windowHeight - controlsHeight;
-
-        var tab = this.tabs.getSelected();
-        var webview = tab.getWebview();
-        var webviewContainer = tab.getWebviewContainer();
-
-        var layoutElements = [
-            this.contentContainer,
-            webviewContainer,
-            webview];
-        for (var i = 0; i < layoutElements.length; ++i) {
-            layoutElements[i].style.width = contentWidth + 'px';
-            layoutElements[i].style.height = contentHeight + 'px';
-        }
+        //var controlsHeight = this.controlsContainer.offsetHeight;
+        //
+        ////var controlsHeight = this.controlsContainer.clientHeight;
+        ////var windowWidth = document.documentElement.clientWidth;
+        ////var windowHeight = document.documentElement.clientHeight;
+        //
+        //
+        //
+        //
+        //var windowWidth = this.controlsContainer.clientWidth;
+        //var windowHeight = document.documentElement.clientHeight;
+        //
+        //var contentWidth = windowWidth;
+        //var contentHeight = windowHeight - controlsHeight;
+        //
+        //var tab = this.tabs.getSelected();
+        //var webview = tab.getWebview();
+        //var webviewContainer = tab.getWebviewContainer();
+        //
+        //var layoutElements = [
+        //    this.contentContainer,
+        //    webviewContainer,
+        //    webview];
+        //for (var i = 0; i < layoutElements.length; ++i) {
+        //    layoutElements[i].style.width = contentWidth + 'px';
+        //    layoutElements[i].style.height = contentHeight + 'px';
+        //}
     };
 
     // New window that is NOT triggered by existing window

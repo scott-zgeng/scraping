@@ -17308,6 +17308,26 @@ Firebug.Inspector =
             Firebug.chrome.node.focus();
     },
 
+    // add by zhanggeng
+    sendSelectorMsg: function(targ) 
+    {                
+        if (!ElementCache(targ))
+            return;
+        
+        var target = "" + ElementCache.key(targ);
+        var styles = [];     
+        var selectedSidePanel = Firebug.chrome.getPanel("HTML").sidePanelBar.selectedPanel;
+               
+        selectedSidePanel.getSelectorText(target, styles);
+        console.log("Selector Text = " + styles);
+        var message = {
+            'type': 'getStyle',
+            'styles': styles
+        };
+        
+        embedder.postMessage(JSON.stringify(message), '*');
+    },
+        
     onInspectingClick: function(e)
     {
         //console.log("onInspectingClick");
@@ -17321,27 +17341,12 @@ Firebug.Inspector =
         if (id == "FirebugUI") return;
 
         // Avoid looking at text nodes in Opera
-        while (targ.nodeType != 1) targ = targ.parentNode;
-
-
-
-        // ============= debug zg =============
-        if (ElementCache(targ)) {
-            var target = "" + ElementCache.key(targ);
-
-            var selectedSidePanel = Firebug.chrome.getPanel("HTML").sidePanelBar.selectedPanel;
-            var lastStyle = selectedSidePanel.selectLastStyle(target);
-            console.log("selected style = " + lastStyle);
-            var message = {
-                'type': 'getStyle',
-                'style': lastStyle || ""
-            };
-            embedder.postMessage(JSON.stringify(message), '*');
+        while (targ.nodeType != 1) {
+            targ = targ.parentNode;
         }
-        // ============= debug zg end =============
 
-
-        Firebug.Inspector.stopInspecting();
+        Firebug.Inspector.sendSelectorMsg(targ);
+        Firebug.Inspector.stopInspecting();                
     },
 
     onInspecting: function(e)
@@ -26650,27 +26655,30 @@ CSSElementPanel.prototype = extend(Firebug.CSSStyleSheetPanel.prototype,
         this.updateView(element);
     },
 
-    getAllStyle: function(element, styles)
+    getAllSelectorText: function(element, styles)
     {
-	this.getCurrentStyle(element, styles);
-	var parent = element.parentNode;
-	if (parent && parent.nodeType == 1) {            
-		this.getAllStyle(parent, styles);
-	}
+        this.getCurrSelectorText(element, styles);
+        var parent = element.parentNode;
+        if (parent && parent.nodeType == 1) {            
+            this.getAllSelectorText(parent, styles);
+        }
     },
 
-    getCurrentStyle: function(element, styles) {
-        var inspectedRules = getElementCSSRules(element);        
+    getCurrSelectorText: function(element, styles) {
+        var inspectedRules = getElementCSSRules(element);
+        if (!inspectedRules)
+            return;
+        
         for (var i = 0; i < inspectedRules.length; i++) {
-		var ruleId = inspectedRules[0];
-		styles.push(CSSRuleMap[ruleId].rule.selectorText);
+            var ruleId = inspectedRules[i];
+            styles.push(CSSRuleMap[ruleId].rule.selectorText);            
         }        
     },
 
-    selectStyle: function(id, styles)
+    getSelectorText: function(id, styles)
     {
         var element = ElementCache.get(id);
-        this.getAllStyle(element, styles);        
+        this.getAllSelectorText(element, styles);        
     },
 
     updateOption: function(name, value)

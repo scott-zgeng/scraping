@@ -6,7 +6,7 @@ var mainBrowser = null;
 
     window.addEventListener('load', function (e) {
         mainBrowser = new browserModule.Browser(
-            query('#controls'),
+            query('#browser-frame-controls'),
             query('#inspect'),
             query('#back'),
             query('#forward'),
@@ -14,8 +14,8 @@ var mainBrowser = null;
             query('#reload'),
             query('#location-form'),
             query('#location'),
-            query('#tab-container'),
-            query('#content-container'),
+            query('#browser-tab-container'),
+            query('#browser-content-container'),
             query('#new-tab'));
     });
 })(browser);

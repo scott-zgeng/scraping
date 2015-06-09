@@ -167,6 +167,7 @@ var tabs = (function (popupModule) {
         closeLink.href = '#close-' + name;
         closeLink.innerText = 'X';
 
+
         labelContainer.appendChild(label);
         labelContainer.appendChild(closeLink);
 
