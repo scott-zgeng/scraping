@@ -192,33 +192,27 @@ var browser = (function (configModule, tabsModule) {
 
 
     Browser.prototype.doLayout = function (e) {
-        //var controlsHeight = this.controlsContainer.offsetHeight;
-        //
-        ////var controlsHeight = this.controlsContainer.clientHeight;
-        ////var windowWidth = document.documentElement.clientWidth;
-        ////var windowHeight = document.documentElement.clientHeight;
-        //
-        //
-        //
-        //
-        //var windowWidth = this.controlsContainer.clientWidth;
-        //var windowHeight = document.documentElement.clientHeight;
-        //
-        //var contentWidth = windowWidth;
-        //var contentHeight = windowHeight - controlsHeight;
-        //
-        //var tab = this.tabs.getSelected();
-        //var webview = tab.getWebview();
-        //var webviewContainer = tab.getWebviewContainer();
-        //
-        //var layoutElements = [
-        //    this.contentContainer,
-        //    webviewContainer,
-        //    webview];
-        //for (var i = 0; i < layoutElements.length; ++i) {
-        //    layoutElements[i].style.width = contentWidth + 'px';
-        //    layoutElements[i].style.height = contentHeight + 'px';
-        //}
+        var controlsHeight = this.controlsContainer.offsetHeight;
+
+        var windowWidth = this.controlsContainer.clientWidth;
+        var windowHeight = document.documentElement.clientHeight;
+
+        var contentWidth = windowWidth;
+        var contentHeight = windowHeight - controlsHeight;
+
+        var tab = this.tabs.getSelected();
+        var webview = tab.getWebview();
+        var webviewContainer = tab.getWebviewContainer();
+
+        var layoutElements = [
+            this.contentContainer,
+            webviewContainer,
+            webview];
+
+        for (var i = 0; i < layoutElements.length; ++i) {
+            layoutElements[i].style.width = contentWidth + 'px';
+            layoutElements[i].style.height = contentHeight + 'px';
+        }
     };
 
     // New window that is NOT triggered by existing window

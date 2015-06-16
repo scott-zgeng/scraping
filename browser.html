@@ -2,7 +2,9 @@
 <html lang="zh-CN">
 
 <head>
+
     <link rel="stylesheet" href="browser.css">
+
 
     <script src="config.js"></script>
     <script src="popup.js"></script>
@@ -12,6 +14,7 @@
 
     <link rel="stylesheet" href="bootstrap.css">
     <!--<link rel="stylesheet" href="bootstrap-theme.css">-->
+
 
     <script src="jquery.js"></script>
     <script src="bootstrap.js"></script>
@@ -51,70 +54,56 @@
         <div class="col-md-11" id="scraping-main">
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="main-nav-browser">
-                    <div id="browser-frame-controls">
-                        <div id="browser-tab-controls" >
-                            <ul id="browser-tab-container">
-                                <li id="new-tab"><a href="#new-tab">+</a></li>
-                            </ul>
-                        </div>
+                    <ul class="nav nav-tabs" role="tablist" id="browser-tab-container">
+                        <li id="new-tab"><a href="#new-tab">+</a></li>
+                    </ul>
 
+                    <div id="browser-frame-controls">
                         <div id="browser-view-controls">
                             <button id="inspect" title="Inspect Element">
                                 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
                             </button>
-
-
                             <button id="back" title="Go Back">
                                 <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
                             </button>
-
                             <button id="forward" title="Go Forward">
                                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                             </button>
-
                             <button id="home" title="Go Home">
                                 <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
                             </button>
-
                             <button id="reload" title="Reload">
                                 <span id="reload_inner" class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                             </button>
-
-
-                                    <!--<li>-->
-                                    <!--<li></li>-->
-
-                                    <!--<li></li>-->
-                                    <!--<li></li>-->
-
-
-
-
                             <form id="location-form">
                                 <div id="center-column">
                                     <input id="location" type="text" value="">
                                 </div>
                                 <input type="submit" value="Go">
                             </form>
-
                         </div>
-
-                        <div id="browser-content-container"></div>
                     </div>
 
-
+                    <div id="browser-content-container"></div>
                 </div>
 
-                <div role="tabpanel" class="tab-pane fade" id="main-nav-profile">scraping-profile</div>
+
+                <div role="tabpanel" class="tab-pane fade" id="main-nav-profile">
+                    scraping-profile
+                </div>
+
                 <div role="tabpanel" class="tab-pane fade" id="main-nav-export">
                     <div id="editor"></div>
                     <div class="info">
                         <label>Filename: </label><span id="title"></span>
                         <label>Mode: </label><span id="mode"></span>
                     </div>
-
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="main-nav-log">debug-log</div>
+
+                <div role="tabpanel" class="tab-pane fade" id="main-nav-log">
+                    debug-log
+                </div>
+
             </div>
         </div>
     </div>

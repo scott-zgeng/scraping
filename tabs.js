@@ -143,8 +143,9 @@ var tabs = (function (popupModule) {
         this.loading = true;
         this.overlay = false;
         this.labelContainer = dce('li');
-        this.label = dce('p');
-        this.closeLink = dce('a');
+        this.labelHref = dce('a');
+        this.label = dce('span');
+        this.closeLink = dce('button');
         this.webviewContainer = dce('div');
         this.popupConfirmBoxList = new popupModule.PopupConfirmBoxList(dce('ul'));
         this.webview = webview;
@@ -158,18 +159,28 @@ var tabs = (function (popupModule) {
         var name = this.name;
         var labelContainer = this.labelContainer;
         var label = this.label;
+        var labelHref = this.labelHref;
         var closeLink = this.closeLink;
 
         labelContainer.setAttribute('data-name', this.name);
+        labelContainer.setAttribute('role', 'presentation');
+        labelContainer.setAttribute('class', 'active');
 
+        label.setAttribute('class', 'tabLabel');
         this.setLabel('Loading...');
 
-        closeLink.href = '#close-' + name;
+        //closeLink.setAttribute("align", 'right');
+        //closeLink.href = '#close-' + name;
         closeLink.innerText = 'X';
 
+        labelHref.href ='#';
+        labelHref.appendChild(label);
 
-        labelContainer.appendChild(label);
-        labelContainer.appendChild(closeLink);
+        var btnSpan = dce('span');
+        btnSpan.appendChild(closeLink);
+        labelHref.appendChild(btnSpan);
+
+        labelContainer.appendChild(labelHref);
 
         (function (tab) {
             labelContainer.addEventListener('click', function (e) {
@@ -221,6 +232,10 @@ var tabs = (function (popupModule) {
         this.webviewContainer.classList.add('selected');
         this.webview.classList.add('selected');
         this.selected = true;
+
+        this.labelContainer.classList.add('active');
+        this.webviewContainer.classList.add('active');
+        this.webview.classList.add('active');
     };
 
     Tab.prototype.deselect = function () {
@@ -228,6 +243,10 @@ var tabs = (function (popupModule) {
         this.webviewContainer.classList.remove('selected');
         this.webview.classList.remove('selected');
         this.selected = false;
+
+        this.labelContainer.classList.remove('active');
+        this.webviewContainer.classList.remove('active');
+        this.webview.classList.remove('active');
     };
 
     Tab.prototype.detach = function () {
