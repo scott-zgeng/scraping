@@ -145,7 +145,7 @@ var tabs = (function (popupModule) {
         this.labelContainer = dce('li');
         this.labelHref = dce('a');
         this.label = dce('span');
-        this.closeLink = dce('button');
+        this.closeLink = dce('a');
         this.webviewContainer = dce('div');
         this.popupConfirmBoxList = new popupModule.PopupConfirmBoxList(dce('ul'));
         this.webview = webview;
@@ -171,7 +171,7 @@ var tabs = (function (popupModule) {
 
         //closeLink.setAttribute("align", 'right');
         //closeLink.href = '#close-' + name;
-        closeLink.innerText = 'X';
+        closeLink.innerText = 'x';
 
         labelHref.href ='#';
         labelHref.appendChild(label);
@@ -247,6 +247,7 @@ var tabs = (function (popupModule) {
         this.labelContainer.classList.remove('active');
         this.webviewContainer.classList.remove('active');
         this.webview.classList.remove('active');
+
     };
 
     Tab.prototype.detach = function () {

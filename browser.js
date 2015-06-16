@@ -64,6 +64,12 @@ var browser = (function (configModule, tabsModule) {
 
     Browser.prototype.init = function () {
         (function (browser) {
+
+            var current_window = chrome.app.window.current();
+            document.querySelector("#close-curr-win").onclick = function() {
+                current_window.close();
+            };
+
             window.addEventListener('resize', function (e) {
                 browser.doLayout(e);
             });
@@ -192,7 +198,8 @@ var browser = (function (configModule, tabsModule) {
 
 
     Browser.prototype.doLayout = function (e) {
-        var controlsHeight = this.controlsContainer.offsetHeight;
+        var systemBarHeight = 40;
+        var controlsHeight = this.controlsContainer.offsetHeight + systemBarHeight;
 
         var windowWidth = this.controlsContainer.clientWidth;
         var windowHeight = document.documentElement.clientHeight;

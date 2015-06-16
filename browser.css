@@ -1,7 +1,31 @@
 
+#title-bar {
+    -webkit-app-region: drag;
+    height: 40px;
+    line-height: 22px;
+    font-size: 16px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-style: oblique;
+}
+
+#title-bar a {
+    -webkit-app-region: no-drag;
+    display: inline-block;
+    box-sizing: border-box;
+    float: right;
+}
+
+
+#title_bar a:hover {
+    border: solid 1px transparent;
+    background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
+}
+
+
 #scraping-nav {
     padding-bottom:100%;
-    background: #f9f9f0;
+    /*background: #f9f9f0;*/
     border-right: solid 1px #ccc;
 }
 
@@ -48,10 +72,10 @@ button:active, input[type="submit"]:active {
 }
 
 
-#browser-tab-container li button {
-    margin-left: 160px;
-    display: -webkit-flex;
-}
+/*#browser-tab-container li a {*/
+    /*margin-left: 160px;*/
+    /*display: -webkit-flex;*/
+/*}*/
 
 
 

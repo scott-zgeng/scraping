@@ -41,9 +41,17 @@
 
 
 <body>
+
+
 <div class="container-fluid">
+
+    <div id="title-bar">
+        Welcome to ScrapingIDE
+        <a id="close-curr-win" href="#"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+    </div>
+
     <div class="row">
-        <div class="col-md-1" id="scraping-nav">
+        <div class="col-md-2" id="scraping-nav">
             <ul class="nav nav-pills nav-stacked" role="tablist">
                 <li role="presentation" class="active"><a href="#main-nav-browser" data-toggle="tab">Browser</a></li>
                 <li role="presentation"><a href="#main-nav-profile" data-toggle="tab">Profile</a></li>
@@ -51,14 +59,15 @@
                 <li role="presentation"><a href="#main-nav-log" data-toggle="tab">Log</a></li>
             </ul>
         </div>
-        <div class="col-md-11" id="scraping-main">
+        <div class="col-md-10" id="scraping-main">
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="main-nav-browser">
-                    <ul class="nav nav-tabs" role="tablist" id="browser-tab-container">
-                        <li id="new-tab"><a href="#new-tab">+</a></li>
-                    </ul>
-
                     <div id="browser-frame-controls">
+                        <ul class="nav nav-tabs" role="tablist" id="browser-tab-container">
+                            <li role="presentation" class="active" id="new-tab"><a href="#new-tab" data-toggle="tab">+</a></li>
+                        </ul>
+
+
                         <div id="browser-view-controls">
                             <button id="inspect" title="Inspect Element">
                                 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
@@ -83,7 +92,6 @@
                             </form>
                         </div>
                     </div>
-
                     <div id="browser-content-container"></div>
                 </div>
 
