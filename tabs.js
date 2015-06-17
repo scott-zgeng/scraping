@@ -353,6 +353,10 @@ var tabs = (function (popupModule) {
                         that.webview.executeScript(
                             {'file': 'googleChrome.js'}
                         );
+
+                        that.webview.insertCSS(
+                            {'file': 'firebug.css'}
+                        );
                     }
                 );
             }

@@ -38,7 +38,7 @@ var browser = (function (configModule, tabsModule) {
 
     Browser.prototype.onProcessStyle = function (styles) {
 
-        $('#myModal').modal();
+        $('#inspectModal').modal();
         // process the get selector operation
         //$("#selector-menu").empty();
         //for (var i = 0;  i < styles.length; i++) {
@@ -115,7 +115,11 @@ var browser = (function (configModule, tabsModule) {
 
             browser.locationForm.addEventListener('submit', function (e) {
                 e.preventDefault();
-                browser.tabs.getSelected().navigateTo(browser.locationBar.value);
+                var url = browser.locationBar.value.toLowerCase();
+                if (url.substring(0, 4) != 'http')
+                    url = 'http://' +  url;
+
+                browser.tabs.getSelected().navigateTo(url);
             });
 
             browser.newTabElement.addEventListener(
@@ -173,28 +177,7 @@ var browser = (function (configModule, tabsModule) {
         }(this));
     };
 
-    Browser.prototype.initDialog = function() {
-        var browser = this;
-        $("#insertDialog").dialog({
-            autoOpen: false,
-            width: 400,
-            buttons: [
-                {
-                    text: "Ok",
-                    click: function() {
-                        browser.onNewRule();
-                        $(this).dialog( "close" );
-                    }
-                },
-                {
-                    text: "Cancel",
-                    click: function() {
-                        $(this).dialog( "close" );
-                    }
-                }
-            ]
-        });
-    };
+
 
 
     Browser.prototype.doLayout = function (e) {

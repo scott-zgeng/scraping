@@ -67,7 +67,7 @@
 .infoTipLoading {
     width: 16px;
     height: 16px;
-    background: url(chrome://firebug/skin/loading_16.gif) no-repeat;
+    /*background: url(chrome://firebug/skin/loading_16.gif) no-repeat;*/
 }
 
 .infoTipImageBox {
@@ -93,7 +93,7 @@ h1.groupHeader {
     margin: 0 0 4px 0;
     border-top: 1px solid #CCCCCC;
     border-bottom: 1px solid #CCCCCC;
-    background: #eee url(group.gif) repeat-x;
+    /*background: #eee url(group.gif) repeat-x;*/
     font-size: 11px;
     font-weight: bold;
     _position: relative;
@@ -140,33 +140,28 @@ h1.groupHeader {
     outline: none;
     resize: none;
     
-    /*
-    _border: 1px solid #999 !important;
-    _padding: 1px !important;
-    _filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="#55404040");
-    /**/
+
 }
 
 .textEditorInner1 {
     padding-left: 11px;
-    background: url(textEditorBorders.png) repeat-y;
-    _background: url(textEditorBorders.gif) repeat-y;
+    /*background: url(textEditorBorders.png) repeat-y;*/
     _overflow: hidden;
 }
 
 .textEditorInner2 {
     position: relative;
     padding-right: 2px;
-    background: url(textEditorBorders.png) repeat-y 100% 0;
-    _background: url(textEditorBorders.gif) repeat-y 100% 0;
+    /*background: url(textEditorBorders.png) repeat-y 100% 0;*/
+
     _position: fixed;
 }
 
 .textEditorTop1 {
-    background: url(textEditorCorners.png) no-repeat 100% 0;
+    /*background: url(textEditorCorners.png) no-repeat 100% 0;*/
     margin-left: 11px;
     height: 10px;
-    _background: url(textEditorCorners.gif) no-repeat 100% 0;
+
     _overflow: hidden;
 }
 
@@ -175,16 +170,16 @@ h1.groupHeader {
     left: -11px;
     width: 11px;
     height: 10px;
-    background: url(textEditorCorners.png) no-repeat;
-    _background: url(textEditorCorners.gif) no-repeat;
+    /*background: url(textEditorCorners.png) no-repeat;*/
+
 }
 
 .textEditorBottom1 {
     position: relative;
-    background: url(textEditorCorners.png) no-repeat 100% 100%;
+    /*background: url(textEditorCorners.png) no-repeat 100% 100%;*/
     margin-left: 11px;
     height: 12px;
-    _background: url(textEditorCorners.gif) no-repeat 100% 100%;
+
 }
 
 .textEditorBottom2 {
@@ -192,8 +187,8 @@ h1.groupHeader {
     left: -11px;
     width: 11px;
     height: 12px;
-    background: url(textEditorCorners.png) no-repeat 0 100%;
-    _background: url(textEditorCorners.gif) no-repeat 0 100%;
+    /*background: url(textEditorCorners.png) no-repeat 0 100%;*/
+
 }
 
 
@@ -266,8 +261,8 @@ h1.groupHeader {
 }
 
 .cssProp.editGroup:hover {
-    background: url(disable.png) no-repeat 2px 1px;
-    _background: url(disable.gif) no-repeat 2px 1px;
+    /*background: url(disable.png) no-repeat 2px 1px;*/
+
 }
 
 .cssProp.editGroup.editing {
@@ -275,8 +270,8 @@ h1.groupHeader {
 }
 
 .cssProp.disabledStyle {
-    background: url(disableHover.png) no-repeat 2px 1px;
-    _background: url(disableHover.gif) no-repeat 2px 1px;
+    /*background: url(disableHover.png) no-repeat 2px 1px;*/
+
     opacity: 1;
     color: #CCCCCC;
 }
@@ -364,7 +359,8 @@ h1.groupHeader {
 /************************************************************************************************/
 
 .netHeadRow {
-    background: url(chrome://firebug/skin/group.gif) repeat-x #FFFFFF;
+    /*background: url(chrome://firebug/skin/group.gif) repeat-x #FFFFFF;*/
+    background: #FFFFFF;
 }
 
 .netHeadCol {
@@ -391,7 +387,8 @@ h1.groupHeader {
     border-bottom: 1px solid #9C9C9C;
     padding: 0 !important;
     font-weight: bold;
-    background: #BBBBBB url(chrome://firebug/skin/tableHeader.gif) repeat-x;
+    /*background: #BBBBBB url(chrome://firebug/skin/tableHeader.gif) repeat-x;*/
+    background: #BBBBBB;
     white-space: nowrap;
 }
 
@@ -406,24 +403,27 @@ h1.groupHeader {
 }
 
 .netHeaderCell:hover:active {
-    background: #959595 url(chrome://firebug/skin/tableHeaderActive.gif) repeat-x;
+    /*background: #959595 url(chrome://firebug/skin/tableHeaderActive.gif) repeat-x;*/
+    background: #959595;
 }
 
 .netHeaderSorted {
-    background: #7D93B2 url(chrome://firebug/skin/tableHeaderSorted.gif) repeat-x;
+    /*background: #7D93B2 url(chrome://firebug/skin/tableHeaderSorted.gif) repeat-x;*/
+    background: #7D93B2;
 }
 
 .netHeaderSorted > .netHeaderCellBox {
     border-right-color: #6B7C93;
-    background: url(chrome://firebug/skin/arrowDown.png) no-repeat right;
+    /*background: url(chrome://firebug/skin/arrowDown.png) no-repeat right;*/
 }
 
 .netHeaderSorted.sortedAscending > .netHeaderCellBox {
-    background-image: url(chrome://firebug/skin/arrowUp.png);
+    /*background-image: url(chrome://firebug/skin/arrowUp.png);*/
 }
 
 .netHeaderSorted:hover:active {
-    background: #536B90 url(chrome://firebug/skin/tableHeaderSortedActive.gif) repeat-x;
+    /*background: #536B90 url(chrome://firebug/skin/tableHeaderSortedActive.gif) repeat-x;*/
+    background: #536B90;
 }
 
 /************************************************************************************************/
@@ -446,11 +446,11 @@ h1.groupHeader {
 }
 
 .netRow[breakpoint="true"] .netRowHeader {
-    background-image: url(chrome://firebug/skin/breakpoint.png);
+    /*background-image: url(chrome://firebug/skin/breakpoint.png);*/
 }
 
 .netRow[breakpoint="true"][disabledBreakpoint="true"] .netRowHeader {
-    background-image: url(chrome://firebug/skin/breakpointDisabled.png);
+    /*background-image: url(chrome://firebug/skin/breakpointDisabled.png);*/
 }
 
 .netRow.category-xhr:hover .netRowHeader {
@@ -605,7 +605,7 @@ h1.groupHeader {
     width: 16px;
     height: 16px;
     background: transparent no-repeat 0 0;
-    background-image: url(chrome://firebug/skin/loading_16.gif);
+    /*background-image: url(chrome://firebug/skin/loading_16.gif);*/
     display:inline-block;
 }
 
@@ -625,7 +625,8 @@ h1.groupHeader {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(chrome://firebug/skin/netBarResolving.gif) repeat-x;
+    /*background: #FFFFFF url(chrome://firebug/skin/netBarResolving.gif) repeat-x;*/
+    background: #FFFFFF;
     z-index:60;
 }
 
@@ -634,7 +635,8 @@ h1.groupHeader {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(chrome://firebug/skin/netBarConnecting.gif) repeat-x;
+    /*background: #FFFFFF url(chrome://firebug/skin/netBarConnecting.gif) repeat-x;*/
+    background: #FFFFFF;
     z-index:50;
 }
 
@@ -643,7 +645,8 @@ h1.groupHeader {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(chrome://firebug/skin/netBarWaiting.gif) repeat-x;
+    /*background: #FFFFFF url(chrome://firebug/skin/netBarWaiting.gif) repeat-x;*/
+    background: #FFFFFF;
     z-index:40;
 }
 
@@ -652,7 +655,8 @@ h1.groupHeader {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(chrome://firebug/skin/netBarSending.gif) repeat-x;
+    /*background: #FFFFFF url(chrome://firebug/skin/netBarSending.gif) repeat-x;*/
+    background: #FFFFFF;
     z-index:30;
 }
 
@@ -661,7 +665,8 @@ h1.groupHeader {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #FFFFFF url(chrome://firebug/skin/netBarResponded.gif) repeat-x;
+    /*background: #FFFFFF url(chrome://firebug/skin/netBarResponded.gif) repeat-x;*/
+    background: #FFFFFF;
     z-index:20;
     min-width: 1px;
 }
@@ -671,7 +676,8 @@ h1.groupHeader {
     left: 0;
     top: 0;
     bottom: 0;
-    background: #38D63B url(chrome://firebug/skin/netBarLoading.gif) repeat-x;
+    /*background: #38D63B url(chrome://firebug/skin/netBarLoading.gif) repeat-x;*/
+    background: #38D63B;
     z-index:10;
 }
 
@@ -712,13 +718,15 @@ h1.groupHeader {
  */
 .loaded .netReceivingBar,
 .loaded.netReceivingBar {
-    background: #B6B6B6 url(chrome://firebug/skin/netBarLoaded.gif) repeat-x;
+    /*background: #B6B6B6 url(chrome://firebug/skin/netBarLoaded.gif) repeat-x;*/
+    background: #B6B6B6;
     border-color: #B6B6B6;
 }
 
 .fromCache .netReceivingBar,
 .fromCache.netReceivingBar {
-    background: #D6D6D6 url(chrome://firebug/skin/netBarCached.gif) repeat-x;
+    /*background: #D6D6D6 url(chrome://firebug/skin/netBarCached.gif) repeat-x;*/
+    background: #D6D6D6;
     border-color: #D6D6D6;
 }
 
@@ -865,7 +873,8 @@ h1.groupHeader {
 
 .netInfoCol {
     border-top: 1px solid #EEEEEE;
-    background: url(chrome://firebug/skin/group.gif) repeat-x #FFFFFF;
+    /*background: url(chrome://firebug/skin/group.gif) repeat-x #FFFFFF;*/
+    background:#FFFFFF;
 }
 
 .netInfoBody {
@@ -1034,7 +1043,7 @@ h1.groupHeader {
 }
 
 .netActivationLabel {
-    background: url(chrome://firebug/skin/infoIcon.png) no-repeat 3px 2px;
+    /*background: url(chrome://firebug/skin/infoIcon.png) no-repeat 3px 2px;*/
     padding-left: 22px;
 }
 
@@ -1109,7 +1118,7 @@ h1.groupHeader {
 .memberRow.hasChildren > .memberLabelCell > .memberLabel,
 .hasHeaders .netHrefLabel,
 .netPageRow > .netCol > .netPageTitle {
-    background-image: url(tree_open.gif);
+    /*background-image: url(tree_open.gif);*/
     background-repeat: no-repeat;
     background-position: 2px 2px;
     min-height: 12px;
@@ -1124,7 +1133,7 @@ h1.groupHeader {
 .nodeBox.open > .nodeLabel > .twisty,
 .netRow.opened > .netCol > .netHrefLabel,
 .netPageRow.opened > .netCol > .netPageTitle {
-    background-image: url(tree_close.gif);
+    /*background-image: url(tree_close.gif);*/
 }
 
 .twisty {
@@ -1142,7 +1151,7 @@ h1.groupHeader {
 * html .logGroup .logGroupLabel,
 * html .hasChildren .memberLabelCell .memberLabel,
 * html .hasHeaders .netHrefLabel {
-    background-image: url(tree_open.gif);
+    /*background-image: url(tree_open.gif);*/
     background-repeat: no-repeat;
     background-position: 2px 2px;
 }
@@ -1150,7 +1159,7 @@ h1.groupHeader {
 * html .opened .spyHead .spyTitle,
 * html .opened .logGroupLabel, 
 * html .opened .memberLabelCell .memberLabel {
-    background-image: url(tree_close.gif);
+    /*background-image: url(tree_close.gif);*/
     background-repeat: no-repeat;
     background-position: 2px 2px;
 }
@@ -1215,7 +1224,8 @@ h1.groupHeader {
 }
 
 .logGroup {
-    background: url(group.gif) repeat-x #FFFFFF;
+    /*background: url(group.gif) repeat-x #FFFFFF;*/
+    background: #FFFFFF;
     padding: 0 !important;
     border: none !important;
 }
@@ -1480,6 +1490,7 @@ h1.groupHeader {
     padding: 0 !important;
     font-weight: bold;
     /*background: #BBBBBB url(chrome://firebug/skin/tableHeader.gif) repeat-x;*/
+    background: #BBBBBB;
 }
 
 .headerCellBox {
@@ -1490,10 +1501,12 @@ h1.groupHeader {
 
 .headerCell:hover:active {
     /*background: #959595 url(chrome://firebug/skin/tableHeaderActive.gif) repeat-x;*/
+    background: #959595;
 }
 
 .headerSorted {
     /*background: #7D93B2 url(chrome://firebug/skin/tableHeaderSorted.gif) repeat-x;*/
+    background: #7D93B2;
 }
 
 .headerSorted > .headerCellBox {
@@ -1507,6 +1520,7 @@ h1.groupHeader {
 
 .headerSorted:hover:active {
     /*background: #536B90 url(chrome://firebug/skin/tableHeaderSortedActive.gif) repeat-x;*/
+    background: #536B90;
 }
 
 .linkCell {
@@ -1706,7 +1720,8 @@ h1.groupHeader {
 
 .logRow-spy,
 .logRow-spy .objectLink-sourceLink {
-    background: url(group.gif) repeat-x #FFFFFF;
+    /*background: url(group.gif) repeat-x #FFFFFF;*/
+    background:#FFFFFF;
     padding-right: 4px;
     right: 0;
 }
@@ -1771,7 +1786,7 @@ h1.groupHeader {
 }
 
 .loading .spyHead .spyRow .spyIcon {
-    background-image: url(loading_16.gif);
+    /*background-image: url(loading_16.gif);*/
     display: block;
 }
 
@@ -1781,7 +1796,7 @@ h1.groupHeader {
 }
 
 .logRow-spy.error .spyHead .spyRow .spyIcon {
-    background-image: url(errorIcon-sm.png);
+    /*background-image: url(errorIcon-sm.png);*/
     display: block;
     background-position: 2px 2px;
 }
@@ -2056,17 +2071,17 @@ h1.groupHeader {
     width: 10px;
     height: 10px;
     margin-top: 6px;
-    background: url(tabMenuTarget.png);   
+    /*background: url(tabMenuTarget.png);   */
 }
 
 .fbTabMenuTarget:hover {
-    background: url(tabMenuTargetHover.png);   
+    /*background: url(tabMenuTargetHover.png);   */
 }
 
 .fbShadow {
     float: left;
-    background: url(shadowAlpha.png) no-repeat bottom right !important;
-    background: url(shadow2.gif) no-repeat bottom right;
+    /*background: url(shadowAlpha.png) no-repeat bottom right !important;*/
+    /*background: url(shadow2.gif) no-repeat bottom right;*/
     margin: 10px 0 0 10px !important;
     margin: 10px 0 0 5px;
 }
@@ -2119,32 +2134,32 @@ h1.groupHeader {
 }
 
 .fbMenuGroup {
-    background: transparent url(tabMenuPin.png) no-repeat right 0;
+    /*background: transparent url(tabMenuPin.png) no-repeat right 0;*/
 }
 
 .fbMenuGroup:hover {
-    background: #316AC5 url(tabMenuPin.png) no-repeat right -17px;
+    /*background: #316AC5 url(tabMenuPin.png) no-repeat right -17px;*/
 }
 
 .fbMenuGroupSelected {
     color: #fff;
-    background: #316AC5 url(tabMenuPin.png) no-repeat right -17px;
+    /*background: #316AC5 url(tabMenuPin.png) no-repeat right -17px;*/
 }
 
 .fbMenuChecked  {
-    background: transparent url(tabMenuCheckbox.png) no-repeat 4px 0;
+    /*background: transparent url(tabMenuCheckbox.png) no-repeat 4px 0;*/
 }
 
 .fbMenuChecked:hover {
-    background: #316AC5 url(tabMenuCheckbox.png) no-repeat 4px -17px;
+    /*background: #316AC5 url(tabMenuCheckbox.png) no-repeat 4px -17px;*/
 }
 
 .fbMenuRadioSelected {
-    background: transparent url(tabMenuRadio.png) no-repeat 4px 0;
+    /*background: transparent url(tabMenuRadio.png) no-repeat 4px 0;*/
 }
 
 .fbMenuRadioSelected:hover {
-    background: #316AC5 url(tabMenuRadio.png) no-repeat 4px -17px;
+    /*background: #316AC5 url(tabMenuRadio.png) no-repeat 4px -17px;*/
 }
 
 .fbMenuShortcut {
@@ -2181,18 +2196,15 @@ h1.groupHeader {
     display: block;
 }
 
-.fbIconButton {
-    display: block;
-}
 
 .fbIconButton {
     display: block;
-    float: left;
-    height: 20px;
-    width: 20px;
+    float: right;
+    /*height: 20px;*/
+    /*width: 20px;*/
     color: #000;
-    margin-right: 2px;
-    text-decoration: none;
+    /*margin-right: 2px;*/
+    /*text-decoration: none;*/
     cursor: default;
 }
 
@@ -2232,7 +2244,8 @@ h1.groupHeader {
     bottom: 0;
     height: 19px;
     width: 75px;
-    background: url(sprite.png) #f1f2ee 0 0;
+    /*background: url(sprite.png) #f1f2ee 0 0;*/
+    background: #f1f2ee;
     z-index: 999;
 }
 
@@ -2290,7 +2303,8 @@ h1.groupHeader {
     display: none;
     right: 0;
     height: 27px;
-    background: url(sprite.png) #f1f2ee 0 0;
+    /*background: url(sprite.png) #f1f2ee 0 0;*/
+    background: #f1f2ee;
     margin-left: 1px;
 }
 
@@ -2308,8 +2322,10 @@ h1.groupHeader {
     float: right;
     border: 1px solid #ccc;
     margin: 0 5px 0 0;
-    background: #fff url(search.png) no-repeat 4px 2px !important;
-    background: #fff url(search.gif) no-repeat 4px 2px;
+
+    /*background: #fff url(search.png) no-repeat 4px 2px !important;*/
+
+    background: #fff;
     padding-left: 20px;    
     font-size: 11px;
 }
@@ -2329,8 +2345,7 @@ h1.groupHeader {
 .fbErrors {
     padding-left: 20px;
     height: 14px;
-    background: url(errorIcon.png) no-repeat !important;
-    background: url(errorIcon.gif) no-repeat;
+    /*background: url(errorIcon.png) no-repeat !important;*/
     color: #f00;
     font-weight: bold;    
 }
@@ -2348,7 +2363,7 @@ h1.groupHeader {
     height: 20px;
     width: 20px;
     float: right;    
-    background: url(sprite.png) 0 -135px;
+    /*background: url(sprite.png) 0 -135px;*/
     cursor: pointer;
 }
 
@@ -2380,13 +2395,16 @@ h1.groupHeader {
 }
 
 #fbToolbar {
-    background: url(sprite.png) #f1f2ee 0 0;
+    /*background: url(sprite.png) #f1f2ee 0 0;*/
+    border-top: 1px solid #ccc;
+    background: #f1f2ee;
     height: 27px;
     font-size: 11px;
 }
 
 #fbPanelBarBox {
-    background: url(sprite.png) #dbd9c9 0 -27px;
+    /*background: url(sprite.png) #dbd9c9 0 -27px;*/
+    background: #dbd9c9;
     height: 22px;
 }
 
@@ -2412,7 +2430,7 @@ h1.groupHeader {
 }
 
 #fbToolbarIcon a {
-    background: url(sprite.png) 0 -135px;
+    /*background: url(sprite.png) 0 -135px;*/
 }
 
 #fbToolbarButtons {
@@ -2453,7 +2471,8 @@ h1.groupHeader {
 
 .fbButton:hover {
     color: #333;
-    background: #f5f5ef url(buttonBg.png);
+    /*background: #f5f5ef url(buttonBg.png);*/
+    background: #f5f5ef;
     padding: 3px 5px 3px 6px;
     border: 1px solid #fff;
     border-bottom: 1px solid #bbb;
@@ -2461,7 +2480,8 @@ h1.groupHeader {
 }
 
 .fbBtnPressed {
-    background: #e3e3db url(buttonBgHover.png) !important;
+    /*background: #e3e3db url(buttonBgHover.png) !important;*/
+    background: #e3e3db;
     padding: 3px 4px 2px 6px !important;
     margin: 1px 0 0 1px !important;
     border: 1px solid #ACA899 !important;
@@ -2511,7 +2531,8 @@ h1.groupHeader {
     width: 48px;
     padding: 5px;
     z-index: 6;
-    background: url(sprite.png) #f1f2ee 0 0;
+    /*background: url(sprite.png) #f1f2ee 0 0;*/
+    background:  #f1f2ee;
 }
 
 /* fbPanelBarBox
@@ -2522,13 +2543,15 @@ h1.groupHeader {
     z-index: 8;
     left: 0;
     white-space: nowrap;
-    background: url(sprite.png) #dbd9c9 0 -27px;
+    /*background: url(sprite.png) #dbd9c9 0 -27px;*/
+    background: #dbd9c9;
     position: absolute;
     left: 4px;
 }
 
 #fbPanelBar2Box {
-    background: url(sprite.png) #dbd9c9 0 -27px;
+    /*background: url(sprite.png) #dbd9c9 0 -27px;*/
+    background: #dbd9c9;
     position: absolute;
     height: 22px;
     width: 300px; /* fixed width to avoid tabs breaking line */
@@ -2603,7 +2626,7 @@ h1.groupHeader {
 }
 
 #fbSmallCommandLineIcon {
-    background: url(down.png) no-repeat;
+    /*background: url(down.png) no-repeat;*/
     position: absolute;
     right: 2px;
     bottom: 3px;
@@ -2612,7 +2635,7 @@ h1.groupHeader {
 }
 
 #fbSmallCommandLineIcon:hover {
-    background: url(downHover.png) no-repeat;
+    /*background: url(downHover.png) no-repeat;*/
 }
 
 .hide {
@@ -2666,7 +2689,7 @@ h1.groupHeader {
 }
 
 #fbLargeCommandLineIcon {
-    background: url(up.png) no-repeat;
+    /*background: url(up.png) no-repeat;*/
     position: absolute;
     right: 1px;
     bottom: 1px;
@@ -2674,7 +2697,7 @@ h1.groupHeader {
 }
 
 #fbLargeCommandLineIcon:hover {
-    background: url(upHover.png) no-repeat;
+    /*background: url(upHover.png) no-repeat;*/
 }
 
 div.fbFitHeight {
@@ -2703,27 +2726,27 @@ div.fbFitHeight {
 }
 
 #fbWindow_btClose {
-    background: url(min.png);
+    /*background: url(min.png);*/
 }
 
 #fbWindow_btClose:hover {
-    background: url(minHover.png);
+    /*background: url(minHover.png);*/
 }
 
 #fbWindow_btDetach {
-    background: url(detach.png);
+    /*background: url(detach.png);*/
 }
 
 #fbWindow_btDetach:hover {
-    background: url(detachHover.png);
+    /*background: url(detachHover.png);*/
 }
 
 #fbWindow_btDeactivate {
-    background: url(off.png);
+    /*background: url(off.png);*/
 }
 
 #fbWindow_btDeactivate:hover {
-    background: url(offHover.png);
+    /*background: url(offHover.png);*/
 }
 
 
@@ -2758,28 +2781,29 @@ div.fbFitHeight {
 }
 
 a.fbTab:hover {
-    background: url(sprite.png) 0 -73px;
+    /*background: url(sprite.png) 0 -73px;*/
 }
 
 a.fbTab:hover .fbTabL {
-    background: url(sprite.png) -16px -96px;
+    /*background: url(sprite.png) -16px -96px;*/
 }
 
 a.fbTab:hover .fbTabR {
-    background: url(sprite.png) -24px -96px;
+    /*background: url(sprite.png) -24px -96px;*/
 }
 
 .fbSelectedTab {
-    background: url(sprite.png) #f1f2ee 0 -50px !important;
+    /*background: url(sprite.png) #f1f2ee 0 -50px !important;*/
+    background: #f1f2ee;
     color: #000;
 }
 
 .fbSelectedTab .fbTabL {
-    background: url(sprite.png) 0 -96px !important;
+    /*background: url(sprite.png) 0 -96px !important;*/
 }
 
 .fbSelectedTab .fbTabR {
-    background: url(sprite.png) -8px -96px !important;
+    /*background: url(sprite.png) -8px -96px !important;*/
 }
 
 /* splitters 
@@ -2793,7 +2817,7 @@ a.fbTab:hover .fbTabR {
     height: 5px;
     overflow: hidden;
     cursor: n-resize !important;
-    background: url(pixel_transparent.gif);
+    /*background: url(pixel_transparent.gif);*/
     z-index: 9;
 }
 
@@ -2803,20 +2827,22 @@ a.fbTab:hover .fbTabR {
 }
 
 .fbVSplitter {
-    background: #ece9d8;
+    background: #dbd9c9;
+    /*background: #ece9d8;*/
     color: #000;
-    border: 1px solid #716f64;
-    border-width: 0 1px;
-    border-left-color: #aca899;
-    width: 4px;
-    cursor: e-resize;
+    /*border: 1px solid #716f64;*/
+    border: 0px;
+    /*border-width: 0 1px;*/
+    /*border-left-color: #aca899;*/
+    width: 6px;
+    /*cursor: e-resize;*/
     overflow: hidden;
     right: 294px;
     text-decoration: none;
     z-index: 10;
     position: absolute;
     height: 100%;
-    top: 27px;
+    top: 29px;
 }
 
 /************************************************************************************************/
@@ -2854,14 +2880,14 @@ div.lineNo {
     height: 9px;
     overflow: hidden;
     cursor: default;
-    background: url(tree_open.gif);
+    /*background: url(tree_open.gif);*/
     _float: none;
     _display: inline;
     _position: absolute;
 }
 
 div.nodeMaximized {
-    background: url(tree_close.gif);
+    /*background: url(tree_close.gif);*/
 }
 
 div.objectBox-element {
@@ -2967,20 +2993,20 @@ position. if so, override it at chrome.js initialization when creating the div *
 }
 
 .logRow-info {
-    background-image: url(infoIcon.png) !important;
-    background-image: url(infoIcon.gif);
+    /*background-image: url(infoIcon.png) !important;*/
+    /*background-image: url(infoIcon.gif);*/
 }
 
 .logRow-warn {
     background-color: cyan;
-    background-image: url(warningIcon.png) !important;
-    background-image: url(warningIcon.gif);
+    /*background-image: url(warningIcon.png) !important;*/
+    /*background-image: url(warningIcon.gif);*/
 }
 
 .logRow-error {
     background-color: LightYellow;
-    background-image: url(errorIcon.png) !important;
-    background-image: url(errorIcon.gif);
+    /*background-image: url(errorIcon.png) !important;*/
+    /*background-image: url(errorIcon.gif);*/
     color: #f00;
 }
 
