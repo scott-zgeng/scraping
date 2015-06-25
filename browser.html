@@ -61,7 +61,7 @@
         </div>
         <div class="col-md-10" id="scraping-main">
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="main-nav-browser">
+                <div role="tabpanel" class="tab-pane active" id="main-nav-browser">
                     <div id="browser-frame-controls">
                         <ul class="nav nav-tabs" role="tablist" id="browser-tab-container">
                             <li role="presentation" class="active" id="new-tab"><a href="#new-tab" data-toggle="tab">+</a></li>
@@ -96,11 +96,38 @@
                 </div>
 
 
-                <div role="tabpanel" class="tab-pane fade" id="main-nav-profile">
-                    scraping-profile
+                <div role="tabpanel" class="tab-pane" id="main-nav-profile">
+                    <div class="profile-item-frame">
+                        <button type="button" class="btn btn-danger btn-xs pull-right btn-del-profile">delete</button>
+                        <h3>item1</h3>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>col1</th>
+                                    <th>col2</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>val1</td>
+                                    <td>val2</td>
+                                </tr>
+                                <tr>
+                                    <td>val1</td>
+                                    <td>val2</td>
+                                </tr>
+                                <tr>
+                                    <td>val1</td>
+                                    <td>val2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <div role="tabpanel" class="tab-pane fade" id="main-nav-export">
+
+
+                <div role="tabpanel" class="tab-pane" id="main-nav-export">
                     <div id="editor"></div>
                     <div class="info">
                         <label>Filename: </label><span id="title"></span>
@@ -108,75 +135,70 @@
                     </div>
                 </div>
 
-                <div role="tabpanel" class="tab-pane fade" id="main-nav-log">
+                <div role="tabpanel" class="tab-pane" id="main-nav-log">
                     debug-log
                 </div>
 
             </div>
         </div>
     </div>
-
-
-    <div id="inspectModal" class="modal fade in">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-
-
-                            <!-- Select Basic -->
-                            <label class="control-label">Field Type</label>
-                            <div class="controls">
-                                <select class="input-xlarge">
-                                    <option>type</option>
-                                    <option>title</option>
-                                    <option>article</option>
-                                    <option>time</option>
-                                    <option>content</option>
-                                    <option>image</option>
-                                    <option>textcontent</option>
-                                    <option>innerfromurl</option>
-                                    <option>innerfrom</option>
-                                    <option>cat</option></select>
-                            </div>
-
-                            <!-- Select Basic -->
-                            <label class="control-label">Selector Type</label>
-
-                            <select class="input-xlarge">
-                                <option>CSS</option>
-                                <option>XPath</option></select>
-
-
-                            <!-- Select Basic -->
-                            <label class="control-label">Selector</label>
-                            <div class="controls">
-                                <select class="input-xlarge">
-                                    <option>Enter</option></select>
-                            </div>
-
-                        </div>
-
-
-                    </form>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
 </div>
 
+
+
+<!--dialog-->
+<div id="inspectModal" class="modal" aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Inspect a new rule</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form">
+                    <div class="form-group">
+                        <label class="control-label">Field Type</label>
+                        <div class="controls">
+                            <select class="form-control" id="inspect-type">
+                                <option>type</option>
+                                <option>title</option>
+                                <option>article</option>
+                                <option>time</option>
+                                <option>content</option>
+                                <option>image</option>
+                                <option>textcontent</option>
+                                <option>innerfromurl</option>
+                                <option>innerfrom</option>
+                                <option>cat</option></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <label class="control-label">Selector Type</label>
+                        <div class="controls">
+                            <select class="form-control" id="inspect-select-type">
+                                <option>CSS</option>
+                                <option>XPath</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Selector</label>
+                        <div class="controls">
+                            <select class="form-control" id="inspect-selector">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="inspectModalBtn">Confirm</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 </body>
 </html>

@@ -38,17 +38,17 @@ body {
     position: relative;
 }
 
-button, input[type="submit"], button[disabled]:hover {
+#main-nav-browser button, input[type="submit"], button[disabled]:hover {
     border: solid 1px transparent;
     background: transparent;
 }
 
-button:hover, input[type="submit"]:hover {
+#main-nav-browser button:hover, input[type="submit"]:hover {
     border-color: #ccc;
     background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
 }
 
-button:active, input[type="submit"]:active {
+#main-nav-browser button:active, input[type="submit"]:active {
     border-color: #bbb;
     background: -webkit-linear-gradient(bottom, #e2e2e2 0%, #bbbbbb 99%);
 }
@@ -146,4 +146,15 @@ webview {
     100% {
         -webkit-transform: rotate(360deg);
     }
+}
+
+
+.profile-item-frame {
+    padding: 10px 20px;
+    margin: 10px 20px;
+    border-radius: 3px;
+    border-top: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    border-left: 5px solid #428bca;
 }

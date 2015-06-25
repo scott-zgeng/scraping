@@ -37,29 +37,79 @@ var browser = (function (configModule, tabsModule) {
 
 
     Browser.prototype.onProcessStyle = function (styles) {
+        if (!styles || styles.length == 0) return;
+
+        // process the get selector operation
+        $("#inspect-selector").empty();
+        for (var i = 0;  i < styles.length; i++) {
+            $("#inspect-selector").append("<option>" + styles[i] + "</option>");
+        }
 
         $('#inspectModal').modal();
-        // process the get selector operation
-        //$("#selector-menu").empty();
-        //for (var i = 0;  i < styles.length; i++) {
-        //    $("#selector-menu").append("<option>" + styles[i] + "</option>");
-        //}
-        //
-        //$("#insertDialog").dialog("open");
     };
 
+    //
+    //Browser.prototype.onNewRule = function () {
+    //    var message = {};
+    //    message.catalog = "news";
+    //    message.name = "test";
+    //    message.extractor = "css";
+    //    message.type = "text";
+    //    message.selector = $("#selectedStyle").text();
+    //
+    //    chrome.runtime.sendMessage(message);
+    //};
 
-    Browser.prototype.onNewRule = function () {
-        var message = {};
-        message.catalog = "news";
-        message.name = "test";
-        message.extractor = "css";
-        message.type = "text";
-        message.selector = $("#selectedStyle").text();
+    Browser.prototype.createNewItem =function() {
 
-        chrome.runtime.sendMessage(message);
+        var frame = dce("div");
+        frame.setAttribute("class", "profile-item-frame");
+
+        var i=0;
+        var frameData = [];
+        frameData[i++] ='<button type="button" class="btn btn-danger btn-xs pull-right btn-del-profile">delete</button>';
+        frameData[i++] ='<h2>scraping item</h2>';
+        frameData[i++] = '<table class="table table-condensed">';
+        frameData[i++] = ' <thead><tr> <th>property</th> <th>value</th> </tr></thead> <tbody>';
+
+
+
+        frameData[i++] = '</tbody>';
+
+        frame.innerHTML = frameData.join('');
+
+        $('#main-nav-profile').append(frame);
+
+
+
+        // 动态设置删除按钮的响应
+        $('.btn-del-profile').on('click', function () {
+            var node = $(this).parent(".profile-item-frame");
+            node.remove();
+        });
     };
 
+    Browser.prototype.initDialog = function() {
+        browser = this;
+
+        $('#inspectModalBtn').on('click', function () {
+
+            var type = $("#inspect-type option:selected").val();
+            console.log("type = " + type);
+
+            var selectorType = $("#inspect-select-type option:selected").val();
+            console.log("selectorType = " + selectorType);
+
+            var selectorValue = $("#inspect-selector option:selected").val();
+            console.log("selectorValue = " + selectorValue);
+
+
+            $('#inspectModal').modal('hide');
+
+            browser.createNewItem();
+        });
+
+    };
 
 
     Browser.prototype.init = function () {
