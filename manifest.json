@@ -32,7 +32,12 @@
       {
         "name": "static",
         "accessible_resources": ["*.html", "*.css"]
+      },
+      {
+        "name": "export",
+        "accessible_resources": ["*.html", "*.css", "*.js"]
       }
+
     ]
   }
 }

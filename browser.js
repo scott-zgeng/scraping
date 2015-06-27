@@ -77,8 +77,8 @@ var browser = (function (configModule, tabsModule) {
         var frameData = [];
         frameData[i++] ='<button type="button" class="btn btn-danger btn-xs pull-right btn-del-profile">delete</button>';
         frameData[i++] ='<h2>scraping item</h2>';
-        frameData[i++] = '<table class="table">';
-        frameData[i++] = ' <thead><tr> <th>property</th> <th>value</th> </tr></thead> <tbody>';
+        frameData[i++] = '<table class="table table-hover">';
+        frameData[i++] = ' <thead><tr> <th width="30%">property</th> <th>value</th> </tr></thead> <tbody>';
 
 
         for (var key in newItem) {
@@ -268,7 +268,7 @@ var browser = (function (configModule, tabsModule) {
 
 
         // 增加大小设置
-        $("#main-nav-profile").height = this.controlsContainer.offsetHeight;
+        $("#main-nav-profile").css('height', document.documentElement.clientHeight + 'px');
 
     };
 

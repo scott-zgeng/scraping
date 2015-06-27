@@ -21,22 +21,6 @@
 
 
 
-    <!--<script src="codemirror.js"></script>-->
-    <!--<script src="css.js"></script>-->
-    <!--<script src="xml.js"></script>-->
-    <!--<script src="javascript.js"></script>-->
-    <!--<script src="formatting.js"></script>-->
-
-    <!--<script src="editor.js"></script>-->
-
-    <!--<link rel="stylesheet" href="style.css">-->
-    <!--<link rel="stylesheet" href="codemirror.css">-->
-    <!--<link rel="stylesheet" href="lesser-dark.css">-->
-
-
-
-    <!--<style type="text/css"> #scraping-nav { background:#339966;  }</style>-->
-
 </head>
 
 
@@ -61,6 +45,8 @@
         </div>
         <div class="col-md-10" id="scraping-main">
             <div class="tab-content">
+
+                <!--browser panel -->
                 <div role="tabpanel" class="tab-pane active" id="main-nav-browser">
                     <div id="browser-frame-controls">
                         <ul class="nav nav-tabs" role="tablist" id="browser-tab-container">
@@ -95,20 +81,16 @@
                     <div id="browser-content-container"></div>
                 </div>
 
-
+                <!--profile panel -->
                 <div role="tabpanel" class="tab-pane" id="main-nav-profile">
                 </div>
 
-
-
+                <!--export panel -->
                 <div role="tabpanel" class="tab-pane" id="main-nav-export">
-                    <div id="editor"></div>
-                    <div class="info">
-                        <label>Filename: </label><span id="title"></span>
-                        <label>Mode: </label><span id="mode"></span>
-                    </div>
+                    <webview tabindex="-1" partition="export" src="editor.html" class="selected active"></webview>
                 </div>
 
+                <!--logger panel -->
                 <div role="tabpanel" class="tab-pane" id="main-nav-log">
                     debug-log
                 </div>
@@ -142,7 +124,8 @@
                                 <option>textcontent</option>
                                 <option>innerfromurl</option>
                                 <option>innerfrom</option>
-                                <option>cat</option></select>
+                                <option>cat</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
