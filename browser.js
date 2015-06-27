@@ -60,7 +60,15 @@ var browser = (function (configModule, tabsModule) {
     //    chrome.runtime.sendMessage(message);
     //};
 
-    Browser.prototype.createNewItem =function() {
+    Browser.prototype.initBtnAction = function () {
+        // 动态设置删除按钮的响应
+        $('.btn-del-profile').on('click', function () {
+            var node = $(this).parent(".profile-item-frame");
+            node.remove();
+        });
+    };
+
+    Browser.prototype.createNewItem =function(newItem) {
 
         var frame = dce("div");
         frame.setAttribute("class", "profile-item-frame");
@@ -69,10 +77,13 @@ var browser = (function (configModule, tabsModule) {
         var frameData = [];
         frameData[i++] ='<button type="button" class="btn btn-danger btn-xs pull-right btn-del-profile">delete</button>';
         frameData[i++] ='<h2>scraping item</h2>';
-        frameData[i++] = '<table class="table table-condensed">';
+        frameData[i++] = '<table class="table">';
         frameData[i++] = ' <thead><tr> <th>property</th> <th>value</th> </tr></thead> <tbody>';
 
 
+        for (var key in newItem) {
+            frameData[i++] = ' <tr> <td>' + key  + '</td> <td>' + newItem[key] + '</td> </tr>';
+        }
 
         frameData[i++] = '</tbody>';
 
@@ -80,13 +91,8 @@ var browser = (function (configModule, tabsModule) {
 
         $('#main-nav-profile').append(frame);
 
+        this.initBtnAction();
 
-
-        // 动态设置删除按钮的响应
-        $('.btn-del-profile').on('click', function () {
-            var node = $(this).parent(".profile-item-frame");
-            node.remove();
-        });
     };
 
     Browser.prototype.initDialog = function() {
@@ -94,21 +100,27 @@ var browser = (function (configModule, tabsModule) {
 
         $('#inspectModalBtn').on('click', function () {
 
+            var newItem = {};
+
             var type = $("#inspect-type option:selected").val();
-            console.log("type = " + type);
+            newItem.type = type;
 
             var selectorType = $("#inspect-select-type option:selected").val();
-            console.log("selectorType = " + selectorType);
+            newItem.selectorType = selectorType;
 
             var selectorValue = $("#inspect-selector option:selected").val();
             console.log("selectorValue = " + selectorValue);
-
+            newItem.selectorValue = selectorValue;
 
             $('#inspectModal').modal('hide');
 
-            browser.createNewItem();
+
+
+            browser.createNewItem(newItem);
         });
 
+
+        this.initBtnAction();
     };
 
 
@@ -253,6 +265,11 @@ var browser = (function (configModule, tabsModule) {
             layoutElements[i].style.width = contentWidth + 'px';
             layoutElements[i].style.height = contentHeight + 'px';
         }
+
+
+        // 增加大小设置
+        $("#main-nav-profile").height = this.controlsContainer.offsetHeight;
+
     };
 
     // New window that is NOT triggered by existing window

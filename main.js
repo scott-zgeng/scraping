@@ -26,9 +26,9 @@ function runApp() {
     window.chrome.app.window.create(
         'browser.html',
         {
-            'id': 'initialBrowserWindowID',
+            id: 'initialBrowserWindowID',
             frame: 'none',
-            'state': 'maximized'
+            state: 'fullscreen'
         },
 
         function (newWindow) {

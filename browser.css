@@ -158,3 +158,10 @@ webview {
     border-bottom: 1px solid #eee;
     border-left: 5px solid #428bca;
 }
+
+#main-nav-profile {
+    overflow-y:auto;
+    /*height: 500px;*/
+
+}
+
