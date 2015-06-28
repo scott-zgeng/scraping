@@ -206,8 +206,6 @@ var browser = (function (configModule, tabsModule) {
                 }
 
 
-
-
                 switch (data.type) {
                     case 'getTitle':
                         if (data.name && data.title) {
@@ -269,6 +267,12 @@ var browser = (function (configModule, tabsModule) {
 
         // 增加大小设置
         $("#main-nav-profile").css('height', document.documentElement.clientHeight + 'px');
+
+
+        $("#main-nav-export webview").css('width', this.controlsContainer.clientWidth + 'px');
+        $("#main-nav-export webview").css('height', document.documentElement.clientHeight + 'px');
+
+
 
     };
 
