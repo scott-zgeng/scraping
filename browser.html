@@ -19,6 +19,9 @@
     <script src="jquery.js"></script>
     <script src="bootstrap.js"></script>
 
+    <script src="codemirror.js"></script>
+    <link rel="stylesheet" href="codemirror.css">
+    <script src="xml.js"></script>
 
 
 </head>
@@ -87,7 +90,7 @@
 
                 <!--export panel -->
                 <div role="tabpanel" class="tab-pane" id="main-nav-export">
-                    <textarea id="main-nav-export-code"></textarea>
+                    <webview tabindex="-1" partition="export" src="export.html" class="selected active" id="main-nav-export-code"></webview>
                 </div>
 
                 <!--logger panel -->

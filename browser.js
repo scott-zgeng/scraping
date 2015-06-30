@@ -25,6 +25,7 @@ var browser = (function (configModule, tabsModule) {
         this.tabContainer = tabContainer;
         this.contentContainer = contentContainer;
         this.newTabElement = newTabElement;
+
         this.tabs = new tabsModule.TabList(
             'tabs',
             this,
@@ -48,17 +49,7 @@ var browser = (function (configModule, tabsModule) {
         $('#inspectModal').modal();
     };
 
-    //
-    //Browser.prototype.onNewRule = function () {
-    //    var message = {};
-    //    message.catalog = "news";
-    //    message.name = "test";
-    //    message.extractor = "css";
-    //    message.type = "text";
-    //    message.selector = $("#selectedStyle").text();
-    //
-    //    chrome.runtime.sendMessage(message);
-    //};
+
 
     Browser.prototype.initBtnAction = function () {
         // 动态设置删除按钮的响应
@@ -119,8 +110,11 @@ var browser = (function (configModule, tabsModule) {
             browser.createNewItem(newItem);
         });
 
-
         this.initBtnAction();
+
+
+
+
     };
 
 
@@ -244,7 +238,7 @@ var browser = (function (configModule, tabsModule) {
         var systemBarHeight = 40;
         var controlsHeight = this.controlsContainer.offsetHeight + systemBarHeight;
 
-        var windowWidth = this.controlsContainer.clientWidth;
+        var windowWidth = document.getElementById('scraping-main').clientWidth;
         var windowHeight = document.documentElement.clientHeight;
 
         var contentWidth = windowWidth;
@@ -266,12 +260,13 @@ var browser = (function (configModule, tabsModule) {
 
 
         // 增加大小设置
-        $("#main-nav-profile").css('height', document.documentElement.clientHeight + 'px');
+        var profilePanel = document.getElementById('main-nav-profile');
+        profilePanel.style.height = windowHeight + 'px';
 
 
-        $("#main-nav-export webview").css('width', this.controlsContainer.clientWidth + 'px');
-        $("#main-nav-export webview").css('height', document.documentElement.clientHeight + 'px');
-
+        var exportArea = document.getElementById('main-nav-export-code');
+        exportArea.style.width = windowWidth + 'px';
+        exportArea.style.height = windowHeight + 'px';
 
 
     };
