@@ -29,7 +29,6 @@ body {
 
 #scraping-nav {
     padding-bottom:100%;
-    /*background: #f9f9f0;*/
     border-right: solid 1px #ccc;
 }
 
@@ -74,13 +73,6 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
-
-/*#browser-tab-container li a {*/
-    /*margin-left: 160px;*/
-    /*display: -webkit-flex;*/
-/*}*/
-
 
 
 #browser-view-controls {
@@ -162,4 +154,78 @@ webview {
 
 #main-nav-profile {
     overflow-y:auto;
+}
+
+
+#export-pathname {
+    padding-left: 40px;
+    color: #888;
+}
+
+#export-controls {
+    display: inline-block;
+    position: relative;
+    padding-left: 20px;
+}
+
+#export-controls button, button[disabled]:hover {
+    border: solid 1px transparent;
+    background: transparent;
+}
+
+#export-controls button:hover{
+    border-color: #ccc;
+    background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
+}
+
+
+#export-controls button:active {
+    border-color: #bbb;
+    background: -webkit-linear-gradient(bottom, #e2e2e2 0%, #bbbbbb 99%);
+}
+
+
+#export-controls {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: -webkit-flex;
+    -webit-flex-direction: column;
+    border-bottom: solid 1px #ccc;
+}
+
+
+#main-nav-export webview {
+    display: inline-block;
+    position: relative;
+}
+
+
+#main-nav-log button {
+    border: solid 1px transparent;
+    background: transparent;
+}
+
+#main-nav-log button:hover {
+    border-color: #ccc;
+    background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
+}
+
+#main-nav-log button:active {
+    border-color: #bbb;
+    background: -webkit-linear-gradient(bottom, #e2e2e2 0%, #bbbbbb 99%);
+}
+
+#log-controls {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid 1px #ccc;
+}
+
+#log-controls button{
+    margin-left: 20px;
+}
+
+#main-nav-log-table {
+    overflow-y: auto;
+    padding: 10px 20px;
 }

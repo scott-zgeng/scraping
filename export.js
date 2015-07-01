@@ -1,5 +1,3 @@
-var refreshButton;
-var saveButton;
 var editor;
 var fileEntry;
 var hasWriteAccess;
@@ -9,32 +7,6 @@ var serializer;
 var parser;
 
 
-function errorHandler(e) {
-    var msg = "";
-
-    switch (e.code) {
-        case FileError.QUOTA_EXCEEDED_ERR:
-            msg = "QUOTA_EXCEEDED_ERR";
-            break;
-        case FileError.NOT_FOUND_ERR:
-            msg = "NOT_FOUND_ERR";
-            break;
-        case FileError.SECURITY_ERR:
-            msg = "SECURITY_ERR";
-            break;
-        case FileError.INVALID_MODIFICATION_ERR:
-            msg = "INVALID_MODIFICATION_ERR";
-            break;
-        case FileError.INVALID_STATE_ERR:
-            msg = "INVALID_STATE_ERR";
-            break;
-        default:
-            msg = "Unknown Error";
-            break;
-    }
-
-    console.log("Error: " + msg);
-}
 
 
 function setFile(theFileEntry, isWritable) {
@@ -42,30 +14,31 @@ function setFile(theFileEntry, isWritable) {
     hasWriteAccess = isWritable;
 }
 
-function readFileIntoEditor(theFileEntry) {
-    if (!theFileEntry)
-        return;
 
-    theFileEntry.file(function (file) {
-        var fileReader = new FileReader();
-
-        fileReader.onload = function (e) {
-            handleDocumentChange(theFileEntry.fullPath);
-            editor.setValue(e.target.result);
-
-            myDoc = parser.parseFromString(e.target.result, "text/xml");
-
-            updateView();
-        };
-
-        fileReader.onerror = function (e) {
-            console.log("Read failed: " + e.toString());
-        };
-
-        fileReader.readAsText(file);
-    }, errorHandler);
-
-}
+//function readFileIntoEditor(theFileEntry) {
+//    if (!theFileEntry)
+//        return;
+//
+//    theFileEntry.file(function (file) {
+//        var fileReader = new FileReader();
+//
+//        fileReader.onload = function (e) {
+//            handleDocumentChange(theFileEntry.fullPath);
+//            editor.setValue(e.target.result);
+//
+//            myDoc = parser.parseFromString(e.target.result, "text/xml");
+//
+//            updateView();
+//        };
+//
+//        fileReader.onerror = function (e) {
+//            console.log("Read failed: " + e.toString());
+//        };
+//
+//        fileReader.readAsText(file);
+//    }, errorHandler);
+//
+//}
 
 function writeEditorToFile(theFileEntry) {
     theFileEntry.createWriter(function (fileWriter) {
@@ -104,8 +77,9 @@ var updateView = function () {
 
 
 function handleRefreshButton() {
-    //chrome.fileSystem.chooseEntry({type: 'openWritableFile'}, onWritableFileToOpen);
+    chrome.fileSystem.chooseEntry({type: 'openWritableFile'}, onWritableFileToOpen);
 }
+
 
 function handleSaveButton() {
     if (fileEntry && hasWriteAccess) {
@@ -117,26 +91,18 @@ function handleSaveButton() {
 
 onload = function () {
 
-    refreshButton = document.getElementById("refresh");
-    saveButton = document.getElementById("save");
+    //refreshButton = document.getElementById("export-refresh");
+    //saveButton = document.getElementById("export-save");
 
-    refreshButton.addEventListener("click", handleRefreshButton);
-    saveButton.addEventListener("click", handleSaveButton);
+    //refreshButton.addEventListener("click", handleRefreshButton);
+    //saveButton.addEventListener("click", handleSaveButton);
 
     editor = CodeMirror(
-        document.getElementById("editor"),
-        {
+        document.getElementById("export-xml-area"), {
             mode: "xml",
             lineNumbers: true,
             fixedGutter: true,
-            extraKeys: {
-                "Cmd-S": function (instance) {
-                    handleSaveButton();
-                },
-                "Ctrl-S": function (instance) {
-                    handleSaveButton();
-                }
-            }
+            readOnly: true
         });
 
     onresize();
@@ -144,7 +110,7 @@ onload = function () {
 };
 
 onresize = function () {
-    var container = document.getElementById('editor');
+    var container = document.getElementById('export-xml-area');
     var containerWidth = container.offsetWidth;
     var containerHeight = container.offsetHeight;
 
@@ -193,7 +159,6 @@ initEditor = function() {
     serializer = new XMLSerializer;
     parser = new DOMParser;
 
-
     myDoc = document.implementation.createDocument("", "", null);
     //myDoc.xmlEncoding("UTF-8");
     //myDoc.xmlVersion(1);
@@ -209,4 +174,3 @@ initEditor = function() {
     chrome.runtime.onMessage.addListener(processMsg);
 };
 
-onload();

@@ -26,12 +26,21 @@ var browser = (function (configModule, tabsModule) {
         this.contentContainer = contentContainer;
         this.newTabElement = newTabElement;
 
+
+
+
         this.tabs = new tabsModule.TabList(
             'tabs',
             this,
             tabContainer,
             contentContainer,
             newTabElement);
+
+
+        this.refreshButton = null;
+        this.saveButton = null;
+        this.fileEntry = null;
+        this.hasWriteAccess = false;
 
         this.init();
     };
@@ -228,9 +237,16 @@ var browser = (function (configModule, tabsModule) {
 
             browser.initDialog();
 
+
+
+            browser.refreshButton = document.getElementById("export-refresh");
+            browser.saveButton = document.getElementById("export-save");
+
+            browser.refreshButton.addEventListener("click", browser.handleRefreshButton);
+            browser.saveButton.addEventListener("click", browser.handleSaveButton);
+
         }(this));
     };
-
 
 
 
@@ -269,6 +285,9 @@ var browser = (function (configModule, tabsModule) {
         exportArea.style.height = windowHeight + 'px';
 
 
+        var logArea = document.getElementById('main-nav-log-table');
+        var logAreaHeight = windowHeight - 80;
+        logArea.style.height = logAreaHeight  + 'px';
     };
 
     // New window that is NOT triggered by existing window
@@ -333,5 +352,84 @@ var browser = (function (configModule, tabsModule) {
         }
     };
 
+
+
+    Browser.prototype.handleRefreshButton = function() {
+        //$("#main-nav-profile ").
+
+
+
+        
+    };
+    
+
+
+    Browser.prototype.handleSaveButton = function() {
+        var fileData = null;
+
+        if (this.fileEntry && this.hasWriteAccess) {
+            this.writeEditorToFile(this.fileEntry, fileData);
+        } else {
+            chrome.fileSystem.chooseEntry({type: 'saveFile'}, this.onChosenFileToSave);
+        }
+    };
+
+
+    Browser.prototype.onChosenFileToSave = function(theFileEntry) {
+        this.fileEntry = theFileEntry;
+        this.hasWriteAccess = true;
+
+        this.writeEditorToFile(theFileEntry);
+    };
+
+
+    Browser.prototype.errorHandler = function(e) {
+        var msg = "";
+
+        switch (e.code) {
+            case FileError.QUOTA_EXCEEDED_ERR:
+                msg = "QUOTA_EXCEEDED_ERR";
+                break;
+            case FileError.NOT_FOUND_ERR:
+                msg = "NOT_FOUND_ERR";
+                break;
+            case FileError.SECURITY_ERR:
+                msg = "SECURITY_ERR";
+                break;
+            case FileError.INVALID_MODIFICATION_ERR:
+                msg = "INVALID_MODIFICATION_ERR";
+                break;
+            case FileError.INVALID_STATE_ERR:
+                msg = "INVALID_STATE_ERR";
+                break;
+            default:
+                msg = "Unknown Error";
+                break;
+        }
+        console.log("Error: " + msg);
+    };
+
+
+    Browser.prototype.writeEditorToFile = function(theFileEntry, fileData) {
+        theFileEntry.createWriter(function (fileWriter) {
+            fileWriter.onerror = function (e) {
+                console.log("Write failed: " + e.toString());
+            };
+
+            var blob = new Blob([fileData]);
+            fileWriter.truncate(blob.size);
+            fileWriter.onwriteend = function () {
+                fileWriter.onwriteend = function (e) {
+                    handleDocumentChange(theFileEntry.fullPath);
+                    console.log("Write completed.");
+                };
+
+                fileWriter.write(blob);
+            }
+        }, this.errorHandler);
+    };
+
+    //  instance
     return {'Browser': Browser};
+
 })(config, tabs);
