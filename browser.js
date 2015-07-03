@@ -5,6 +5,7 @@ var browser = (function (configModule, tabsModule) {
 
     var Browser = function (controlsContainer,
                             inspect,
+                            addModule,
                             back,
                             forward,
                             home,
@@ -16,6 +17,7 @@ var browser = (function (configModule, tabsModule) {
                             newTabElement) {
         this.controlsContainer = controlsContainer;
         this.inspect = inspect;
+        this.addModule = addModule;
         this.back = back;
         this.forward = forward;
         this.reload = reload;
@@ -41,6 +43,7 @@ var browser = (function (configModule, tabsModule) {
         this.saveButton = null;
         this.fileEntry = null;
         this.hasWriteAccess = false;
+        this.exportDoc = document.implementation.createDocument("", "", null);
 
         this.init();
     };
@@ -82,7 +85,7 @@ var browser = (function (configModule, tabsModule) {
 
 
         for (var key in newItem) {
-            frameData[i++] = ' <tr> <td>' + key  + '</td> <td>' + newItem[key] + '</td> </tr>';
+            frameData[i++] = ' <tr class="item-property"> <td>' + key  + '</td> <td>' + newItem[key] + '</td> </tr>';
         }
 
         frameData[i++] = '</tbody>';
@@ -114,10 +117,30 @@ var browser = (function (configModule, tabsModule) {
 
             $('#inspectModal').modal('hide');
 
-
-
             browser.createNewItem(newItem);
         });
+
+
+        $('#add-new-module-btn').on('click', function () {
+
+            var newItem = {};
+            newItem.name = $("#dlg-module-name").val();
+            newItem.rule = $("#dlg-module-rule").val();
+
+            var selectorType = $("#inspect-select-type option:selected").val();
+            newItem.selectorType = selectorType;
+
+            var selectorValue = $("#inspect-selector option:selected").val();
+            console.log("selectorValue = " + selectorValue);
+            newItem.selectorValue = selectorValue;
+
+            $('#inspectModal').modal('hide');
+
+
+            browser.createNewModule(newItem);
+        });
+
+
 
         this.initBtnAction();
 
@@ -147,6 +170,9 @@ var browser = (function (configModule, tabsModule) {
                 browser.tabs.getSelected().inspect();
             });
 
+            browser.addModule.addEventListener('click', function (e) {
+                browser.doAddModule();
+            });
 
             browser.back.addEventListener('click', function (e) {
                 browser.tabs.getSelected().goBack();
@@ -355,13 +381,27 @@ var browser = (function (configModule, tabsModule) {
 
 
     Browser.prototype.handleRefreshButton = function() {
-        //$("#main-nav-profile ").
+
+        var doc = this.exportDoc.empty();
+        var site = doc.createElement("site");
+        doc.appendChild(site);
+
+        var module = doc.createElement("module");
+        site.appendChild(module);
+
+        $("#main-nav-profile tbody").each(function () {
+            var rows = $(this).children();
+            rows.each(function () {
+                var items = $(this).children();
 
 
 
-        
+                console.log(items.first().text());
+                console.log(items.last().text());
+            });
+        });
     };
-    
+
 
 
     Browser.prototype.handleSaveButton = function() {
@@ -427,6 +467,10 @@ var browser = (function (configModule, tabsModule) {
                 fileWriter.write(blob);
             }
         }, this.errorHandler);
+    };
+
+    Browser.prototype.doAddModule = function() {
+        $('#add-module-dlg').modal();
     };
 
     //  instance

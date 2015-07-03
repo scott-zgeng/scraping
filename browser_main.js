@@ -8,6 +8,7 @@ var mainBrowser = null;
         mainBrowser = new browserModule.Browser(
             query('#browser-frame-controls'),
             query('#inspect'),
+            query('#add-module'),
             query('#back'),
             query('#forward'),
             query('#home'),

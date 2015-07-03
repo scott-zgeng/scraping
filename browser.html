@@ -61,6 +61,11 @@
                             <button id="inspect" title="Inspect Element">
                                 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
                             </button>
+
+                            <button id="add-module" title="Add Module">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+
                             <button id="back" title="Go Back">
                                 <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
                             </button>
@@ -186,6 +191,39 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+<!--dialog-->
+<div id="add-module-dlg" class="modal" aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add a new module</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="dlg-module-name">Module Name</label>
+                        <input type="text" class="form-control" id="dlg-module-name" placeholder="new module">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dlg-module-rule">Module Rule</label>
+                        <input type="text" class="form-control" id="dlg-module-rule" placeholder="regular expression (e.g: http://news.*.com)">
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="add-new-module-btn">Confirm</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
 
 </body>
 </html>
