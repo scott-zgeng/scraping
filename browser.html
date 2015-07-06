@@ -138,7 +138,7 @@
 
 
 <!--dialog-->
-<div id="inspectModal" class="modal" aria-hidden="true" tabindex="-1" role="dialog">
+<div id="inspect-dlg" class="modal" aria-hidden="true" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -146,6 +146,14 @@
             </div>
             <div class="modal-body">
                 <form class="form">
+                    <div class="form-group">
+                        <label class="control-label">Module</label>
+                        <div class="controls">
+                            <select class="form-control" id="inspect-module">
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="control-label">Field Type</label>
                         <div class="controls">
@@ -185,7 +193,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="inspectModalBtn">Confirm</button>
+                <button type="button" class="btn btn-primary" id="inspect-dlg-btn">Confirm</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
@@ -212,7 +220,7 @@
                         <label for="dlg-module-rule">Module Rule</label>
                         <input type="text" class="form-control" id="dlg-module-rule" placeholder="regular expression (e.g: http://news.*.com)">
                     </div>
-
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="add-new-module-btn">Confirm</button>

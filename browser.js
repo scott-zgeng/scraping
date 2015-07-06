@@ -15,6 +15,7 @@ var browser = (function (configModule, tabsModule) {
                             tabContainer,
                             contentContainer,
                             newTabElement) {
+
         this.controlsContainer = controlsContainer;
         this.inspect = inspect;
         this.addModule = addModule;
@@ -29,8 +30,6 @@ var browser = (function (configModule, tabsModule) {
         this.newTabElement = newTabElement;
 
 
-
-
         this.tabs = new tabsModule.TabList(
             'tabs',
             this,
@@ -39,6 +38,7 @@ var browser = (function (configModule, tabsModule) {
             newTabElement);
 
 
+        // add by zhanggeng
         this.refreshButton = null;
         this.saveButton = null;
         this.fileEntry = null;
@@ -48,106 +48,6 @@ var browser = (function (configModule, tabsModule) {
         this.init();
     };
 
-
-    Browser.prototype.onProcessStyle = function (styles) {
-        if (!styles || styles.length == 0) return;
-
-        // process the get selector operation
-        $("#inspect-selector").empty();
-        for (var i = 0;  i < styles.length; i++) {
-            $("#inspect-selector").append("<option>" + styles[i] + "</option>");
-        }
-
-        $('#inspectModal').modal();
-    };
-
-
-
-    Browser.prototype.initBtnAction = function () {
-        // 动态设置删除按钮的响应
-        $('.btn-del-profile').on('click', function () {
-            var node = $(this).parent(".profile-item-frame");
-            node.remove();
-        });
-    };
-
-    Browser.prototype.createNewItem =function(newItem) {
-
-        var frame = dce("div");
-        frame.setAttribute("class", "profile-item-frame");
-
-        var i=0;
-        var frameData = [];
-        frameData[i++] ='<button type="button" class="btn btn-danger btn-xs pull-right btn-del-profile">delete</button>';
-        frameData[i++] ='<h2>scraping item</h2>';
-        frameData[i++] = '<table class="table table-hover">';
-        frameData[i++] = ' <thead><tr> <th width="30%">property</th> <th>value</th> </tr></thead> <tbody>';
-
-
-        for (var key in newItem) {
-            frameData[i++] = ' <tr class="item-property"> <td>' + key  + '</td> <td>' + newItem[key] + '</td> </tr>';
-        }
-
-        frameData[i++] = '</tbody>';
-
-        frame.innerHTML = frameData.join('');
-
-        $('#main-nav-profile').append(frame);
-
-        this.initBtnAction();
-
-    };
-
-    Browser.prototype.initDialog = function() {
-        browser = this;
-
-        $('#inspectModalBtn').on('click', function () {
-
-            var newItem = {};
-
-            var type = $("#inspect-type option:selected").val();
-            newItem.type = type;
-
-            var selectorType = $("#inspect-select-type option:selected").val();
-            newItem.selectorType = selectorType;
-
-            var selectorValue = $("#inspect-selector option:selected").val();
-            console.log("selectorValue = " + selectorValue);
-            newItem.selectorValue = selectorValue;
-
-            $('#inspectModal').modal('hide');
-
-            browser.createNewItem(newItem);
-        });
-
-
-        $('#add-new-module-btn').on('click', function () {
-
-            var newItem = {};
-            newItem.name = $("#dlg-module-name").val();
-            newItem.rule = $("#dlg-module-rule").val();
-
-            var selectorType = $("#inspect-select-type option:selected").val();
-            newItem.selectorType = selectorType;
-
-            var selectorValue = $("#inspect-selector option:selected").val();
-            console.log("selectorValue = " + selectorValue);
-            newItem.selectorValue = selectorValue;
-
-            $('#inspectModal').modal('hide');
-
-
-            browser.createNewModule(newItem);
-        });
-
-
-
-        this.initBtnAction();
-
-
-
-
-    };
 
 
     Browser.prototype.init = function () {
@@ -194,6 +94,7 @@ var browser = (function (configModule, tabsModule) {
                     tab.doReload();
                 }
             });
+
             browser.reload.addEventListener(
                 'webkitAnimationIteration',
                 function () {
@@ -261,9 +162,9 @@ var browser = (function (configModule, tabsModule) {
             }
             browser.tabs.selectTab(tab);
 
+
+            // add by zhanggeng
             browser.initDialog();
-
-
 
             browser.refreshButton = document.getElementById("export-refresh");
             browser.saveButton = document.getElementById("export-save");
@@ -301,7 +202,7 @@ var browser = (function (configModule, tabsModule) {
         }
 
 
-        // 增加大小设置
+        // add by zhanggeng 增加大小设置
         var profilePanel = document.getElementById('main-nav-profile');
         profilePanel.style.height = windowHeight + 'px';
 
@@ -314,6 +215,7 @@ var browser = (function (configModule, tabsModule) {
         var logArea = document.getElementById('main-nav-log-table');
         var logAreaHeight = windowHeight - 80;
         logArea.style.height = logAreaHeight  + 'px';
+
     };
 
     // New window that is NOT triggered by existing window
@@ -469,11 +371,137 @@ var browser = (function (configModule, tabsModule) {
         }, this.errorHandler);
     };
 
+
+
+
+    Browser.prototype.initDialog = function() {
+        browser = this;
+
+        $('#inspect-dlg-btn').on('click', function () {
+
+            var newItem = {};
+
+            newItem.type = $("#inspect-type option:selected").val();
+            newItem.selectorType = $("#inspect-select-type option:selected").val();
+            newItem.selectorValue = $("#inspect-selector option:selected").val();
+
+            $('#inspect-dlg').modal('hide');
+
+            browser.createNewItem(newItem);
+        });
+
+
+        $('#inspect-dlg').on('hide.bs.modal', function() {
+            $(this).find('form')[0].reset();
+        });
+
+
+        $('#add-new-module-btn').on('click', function () {
+
+            var newItem = {};
+
+            newItem.name = $("#dlg-module-name").val();
+            newItem.rule = $("#dlg-module-rule").val();
+
+            $('#add-module-dlg').modal('hide');
+
+            browser.createNewModule(newItem);
+        });
+
+
+        $('#add-module-dlg').on('hide.bs.modal', function() {
+            $(this).find('form')[0].reset();
+        });
+
+        this.initBtnAction();
+    };
+
+
+    Browser.prototype.onProcessStyle = function (styles) {
+        if (!styles || styles.length == 0) return;
+
+
+        $("#inspect-module").empty();
+
+
+        // process the get selector operation
+        $("#inspect-selector").empty();
+        for (var i = 0;  i < styles.length; i++) {
+            $("#inspect-selector").append("<option>" + styles[i] + "</option>");
+        }
+
+        $('#inspect-dlg').modal();
+    };
+
+
+
+    Browser.prototype.createNewItem = function(newItem) {
+
+        var frame = dce("div");
+        frame.setAttribute("class", "profile-item-frame");
+
+        var i=0;
+        var frameData = [];
+        frameData[i++] ='<button type="button" class="btn btn-danger btn-xs pull-right btn-del-profile">delete</button>';
+        frameData[i++] ='<h2>scraping item</h2>';
+        frameData[i++] = '<table class="table table-hover">';
+        frameData[i++] = ' <thead><tr> <th width="30%">property</th> <th>value</th> </tr></thead> <tbody>';
+
+
+        for (var key in newItem) {
+            frameData[i++] = ' <tr class="item-property"> <td>' + key  + '</td> <td>' + newItem[key] + '</td> </tr>';
+        }
+
+        frameData[i++] = '</tbody>';
+
+        frame.innerHTML = frameData.join('');
+
+        $('#main-nav-profile').append(frame);
+
+        $('.btn-del-profile').on('click', function () {
+            var node = $(this).parent(".profile-item-frame");
+            node.remove();
+        });
+
+    };
+
+
     Browser.prototype.doAddModule = function() {
         $('#add-module-dlg').modal();
     };
+
+
+    Browser.prototype.createNewModule = function(newItem) {
+
+        console.log(newItem);
+
+        var frame = dce("div");
+        frame.setAttribute("class", "profile-module-frame");
+        frame.setAttribute("data-name", newItem.name);
+
+        var i=0;
+        var frameData = [];
+        frameData[i++] ='<button type="button" class="btn btn-danger btn-xs pull-right btn-del-module">delete</button>';
+        frameData[i++] ='<h2>' + newItem.name + '</h2>';
+        frameData[i++] ='<h4>' + newItem.rule + '</h4>';
+
+        frame.innerHTML = frameData.join('');
+
+        $('#main-nav-profile').append(frame);
+
+        $('.btn-del-module').on('click', function () {
+            var node = $(this).parent(".profile-module-frame");
+            node.remove();
+        });
+    };
+
+
+
+
 
     //  instance
     return {'Browser': Browser};
 
 })(config, tabs);
+
+
