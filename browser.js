@@ -40,6 +40,7 @@ var browser = (function (configModule, tabsModule) {
         this.newTabElement = newTabElement;
 
 
+
         this.tabs = new tabsModule.TabList(
             'tabs',
             this,
@@ -49,9 +50,10 @@ var browser = (function (configModule, tabsModule) {
 
 
         // add by zhanggeng
-        this.fileEntry = null;
-        this.exportDoc = document.implementation.createDocument("", "", null);
+        this.exportEntry = null;
         this.profileEntry = null;
+        this.serializer = new XMLSerializer;
+        this.exportXML = null;
 
         this.init();
     };
@@ -225,7 +227,7 @@ var browser = (function (configModule, tabsModule) {
         profilePanel.style.height = windowHeight + 'px';
 
 
-        var exportArea = document.getElementById('main-nav-export-code');
+        var exportArea = document.getElementById('main-nav-export-area');
         exportArea.style.width = windowWidth + 'px';
         exportArea.style.height = windowHeight + 'px';
 
@@ -299,45 +301,6 @@ var browser = (function (configModule, tabsModule) {
     };
 
 
-    Browser.prototype.handleRefreshExport = function() {
-
-        var doc = this.exportDoc.empty();
-        var site = doc.createElement("site");
-        doc.appendChild(site);
-
-        var module = doc.createElement("module");
-        site.appendChild(module);
-
-        $("#main-nav-profile tbody").each(function () {
-            var rows = $(this).children();
-            rows.each(function () {
-                var items = $(this).children();
-
-                console.log(items.first().text());
-                console.log(items.last().text());
-            });
-        });
-    };
-
-
-
-    Browser.prototype.handleSaveExport = function() {
-        var fileData = null;
-
-        if (this.fileEntry && this.hasWriteAccess) {
-            this.writeEditorToFile(this.fileEntry, fileData);
-        } else {
-            chrome.fileSystem.chooseEntry({type: 'saveFile'}, this.onChosenFileToSave);
-        }
-    };
-
-
-    Browser.prototype.onChosenFileToSave = function(theFileEntry) {
-        this.fileEntry = theFileEntry;
-        this.hasWriteAccess = true;
-
-        this.writeEditorToFile(theFileEntry);
-    };
 
 
     Browser.prototype.errorHandler = function(e) {
@@ -367,27 +330,6 @@ var browser = (function (configModule, tabsModule) {
     };
 
 
-    Browser.prototype.writeEditorToFile = function(theFileEntry, fileData) {
-        theFileEntry.createWriter(function (fileWriter) {
-            fileWriter.onerror = function (e) {
-                console.log("Write failed: " + e.toString());
-            };
-
-            var blob = new Blob([fileData]);
-            fileWriter.truncate(blob.size);
-            fileWriter.onwriteend = function () {
-                fileWriter.onwriteend = function (e) {
-                    handleDocumentChange(theFileEntry.fullPath);
-                    console.log("Write completed.");
-                };
-
-                fileWriter.write(blob);
-            }
-        }, this.errorHandler);
-    };
-
-
-
 
     Browser.prototype.initDialog = function() {
         browser = this;
@@ -396,8 +338,8 @@ var browser = (function (configModule, tabsModule) {
 
             var newItem = {};
 
-            newItem.module = $("#inspect-module option:selected").val();
-            if (!newItem.module) return;
+            var module = $("#inspect-module option:selected").val();
+            if (!module) return;
 
             newItem.type = $("#inspect-type option:selected").val();
             newItem.selectorType = $("#inspect-select-type option:selected").val();
@@ -405,7 +347,7 @@ var browser = (function (configModule, tabsModule) {
 
             $('#inspect-dlg').modal('hide');
 
-            browser.createNewItem(newItem);
+            browser.createNewItem(module, newItem);
         });
 
 
@@ -458,7 +400,7 @@ var browser = (function (configModule, tabsModule) {
 
 
 
-    Browser.prototype.createNewItem = function(newItem) {
+    Browser.prototype.createNewItem = function(module, newItem) {
 
         var frame = dce("div");
         frame.setAttribute("class", "profile-item-frame");
@@ -472,17 +414,18 @@ var browser = (function (configModule, tabsModule) {
 
 
         for (var key in newItem) {
-            frameData[i++] = ' <tr class="item-property"> <td>' + key  + '</td> <td>' + newItem[key] + '</td> </tr>';
+            frameData[i++] = ' <tr class="item-property" key="' + key  +'" value="' + newItem[key] + '">';
+            frameData[i++] = ' <td>' + key  + '</td> <td>' + newItem[key] + '</td> </tr>';
         }
 
         frameData[i++] = '</tbody>';
 
         frame.innerHTML = frameData.join('');
 
-        var module = $('.profile-module-frame[data-name="' + newItem.module + '"]');
-        if (!module) return;
+        var moduleNode = $('.profile-module-frame[data-name="' + module + '"]');
+        if (!moduleNode) return;
 
-        module.append(frame);
+        moduleNode.append(frame);
 
         $('.btn-del-profile').on('click', function () {
             var node = $(this).parent(".profile-item-frame");
@@ -503,6 +446,7 @@ var browser = (function (configModule, tabsModule) {
         var frame = dce("div");
         frame.setAttribute("class", "profile-module-frame");
         frame.setAttribute("data-name", newItem.name);
+        frame.setAttribute("rule", newItem.rule);
 
         var i=0;
         var frameData = [];
@@ -528,6 +472,20 @@ var browser = (function (configModule, tabsModule) {
         panel.html(e.target.result);
 
         $("#profile-pathname").html("filename: " + file.name);
+
+
+        // load 完成后需要增加按钮动作
+        $('.btn-del-profile').on('click', function () {
+            var node = $(this).parent(".profile-item-frame");
+            node.remove();
+        });
+
+
+        $('.btn-del-module').on('click', function () {
+            var node = $(this).parent(".profile-module-frame");
+            node.remove();
+        });
+
     };
 
     Browser.prototype.handleOpenProfile = function() {
@@ -566,11 +524,9 @@ var browser = (function (configModule, tabsModule) {
                 console.log("Write failed: " + e.toString());
             };
 
-            var profile = $("#main-profile-panel").html();
+            var text = $("#main-profile-panel").html();
 
-            console.log(profile);
-
-            var blob = new Blob([profile], {type: 'text/plain'});
+            var blob = new Blob([text], {type: 'text/plain'});
 
             fileWriter.truncate(blob.size);
             fileWriter.onwriteend = function() {
@@ -593,10 +549,105 @@ var browser = (function (configModule, tabsModule) {
         }
 
         chrome.fileSystem.chooseEntry({ type: 'saveFile' }, function(file) {
+            if (!file) return;
+
             browser.profileEntry = file;
             browser.writeProfileToFile(browser.profileEntry);
         });
 
+    };
+
+
+    Browser.prototype.handleRefreshExport = function() {
+
+
+        this.exportXML  = document.implementation.createDocument("", "", null);
+        var xml = this.exportXML;
+
+        var site = xml.createElement("site");
+        xml.appendChild(site);
+
+
+        $(".profile-module-frame").each(function () {
+            var frame = $(this);
+
+            var module = xml.createElement("module");
+            site.appendChild(module);
+
+            var accept = xml.createElement("accept");
+            accept.innerHTML = frame.attr("rule");
+            module.appendChild(accept);
+
+            var items = $(this).find(".profile-item-frame");
+            items.each(function () {
+                var item = $(this);
+                var type = item.find("tr[key=type]");
+                var field = xml.createElement("field");
+                field.setAttribute("name", type.attr("value"));
+                module.appendChild(field);
+
+
+                var selectorType = item.find("tr[key=selectorType]");
+                var extractor = xml.createElement("extractor");
+                extractor.setAttribute("type", selectorType.attr("value"));
+                field.appendChild(extractor);
+
+                var selectorValue = item.find("tr[key=selectorValue]");
+                var selector = xml.createElement("selector");
+
+                selector.innerHTML = selectorValue.attr("value");
+                extractor.appendChild(selector);
+            });
+        });
+
+
+
+        var text = this.serializer.serializeToString(xml);
+        text = vkbeautify.xml(text);
+        var exportView = document.getElementById("main-nav-export-area");
+        exportView.contentWindow.postMessage(text, '*');
+    };
+
+
+
+    Browser.prototype.handleSaveExport = function() {
+
+        if (this.exportEntry) {
+            this.writeExportToFile(this.exportEntry);
+            return;
+        }
+
+        chrome.fileSystem.chooseEntry({ type: 'saveFile' }, function(file) {
+            if (!file) return;
+
+            browser.exportEntry = file;
+            browser.writeExportToFile(browser.exportEntry);
+        });
+    };
+
+
+    Browser.prototype.writeExportToFile = function(file) {
+        var browser = this;
+
+        file.createWriter(function(fileWriter) {
+
+            fileWriter.onerror = function(e) {
+                console.log("Write failed: " + e.toString());
+            };
+
+            var text = browser.serializer.serializeToString(browser.exportXML);
+            text = vkbeautify.xml(text);
+            var blob = new Blob([text], {type: 'text/plain'});
+
+            fileWriter.truncate(blob.size);
+            fileWriter.onwriteend = function() {
+                fileWriter.onwriteend = function(e) {
+                    console.log("Write completed.");
+                    $("#export-pathname").html("filename: " + file.name);
+                };
+                fileWriter.write(blob);
+            };
+        }, browser.errorHandler);
     };
 
 
