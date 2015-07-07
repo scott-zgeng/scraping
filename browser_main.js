@@ -7,6 +7,11 @@ var mainBrowser = null;
     window.addEventListener('load', function (e) {
         mainBrowser = new browserModule.Browser(
             query('#browser-frame-controls'),
+            query('#open-profile-btn'),
+            query('#save-profile-btn'),
+            query('#export-refresh-btn'),
+            query('#export-save-btn'),
+
             query('#inspect'),
             query('#add-module'),
             query('#back'),

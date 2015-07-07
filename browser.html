@@ -80,7 +80,7 @@
                             </button>
                             <form id="location-form">
                                 <div id="center-column">
-                                    <input id="location" type="text" value="">
+                                    <input id="location" type="text" value="" spellcheck='false'>
                                 </div>
                                 <input type="submit" value="Go">
                             </form>
@@ -91,16 +91,28 @@
 
                 <!--profile panel -->
                 <div role="tabpanel" class="tab-pane" id="main-nav-profile">
+                    <div class="controls-bar">
+                        <button title="Open file" id="open-profile-btn">
+                            <span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span>
+                        </button>
+                        <button title="Save file" id="save-profile-btn">
+                            <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                        </button>
+                        <span id="profile-pathname">filename: (null)</span>
+                    </div>
+
+                    <div id="main-profile-panel">
+                    </div>
                 </div>
 
                 <!--export panel -->
                 <div role="tabpanel" class="tab-pane" id="main-nav-export">
-                    <div id="export-controls">
-                        <button id="export-refresh" title="Refresh">
+                    <div class="controls-bar">
+                        <button id="export-refresh-btn" title="Refresh">
                             <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                         </button>
-                        <button id="export-save" title="Save the Export File">
-                            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                        <button id="export-save-btn" title="Save the Export File">
+                            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
                         </button>
                         <span id="export-pathname">pathname: (null)</span>
                     </div>
@@ -111,9 +123,9 @@
 
                 <!--logger panel -->
                 <div role="tabpanel" class="tab-pane" id="main-nav-log">
-                    <div id="log-controls">
+                    <div class="controls-bar">
                         <button title="Clean Log">
-                            <span id="clean-log" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </button>
                     </div>
                     <div id="main-nav-log-table">
@@ -213,12 +225,12 @@
                 <form class="form">
                     <div class="form-group">
                         <label for="dlg-module-name">Module Name</label>
-                        <input type="text" class="form-control" id="dlg-module-name" placeholder="new module">
+                        <input type="text" class="form-control" id="dlg-module-name" spellcheck='false' placeholder="new module" >
                     </div>
 
                     <div class="form-group">
                         <label for="dlg-module-rule">Module Rule</label>
-                        <input type="text" class="form-control" id="dlg-module-rule" placeholder="regular expression (e.g: http://news.*.com)">
+                        <input type="text" class="form-control" id="dlg-module-rule" spellcheck='false' placeholder="regular expression (e.g: http://news.*.com)">
                     </div>
                 </form>
             </div>

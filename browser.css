@@ -37,17 +37,17 @@ body {
     position: relative;
 }
 
-#main-nav-browser button, input[type="submit"], button[disabled]:hover {
+#scraping-main button, input[type="submit"], button[disabled]:hover {
     border: solid 1px transparent;
     background: transparent;
 }
 
-#main-nav-browser button:hover, input[type="submit"]:hover {
+#scraping-main button:hover, input[type="submit"]:hover {
     border-color: #ccc;
     background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
 }
 
-#main-nav-browser button:active, input[type="submit"]:active {
+#scraping-main button:active, input[type="submit"]:active {
     border-color: #bbb;
     background: -webkit-linear-gradient(bottom, #e2e2e2 0%, #bbbbbb 99%);
 }
@@ -141,24 +141,42 @@ webview {
 }
 
 
-.profile-item-frame {
-    padding: 10px 20px;
-    margin: 10px 20px;
-    border-radius: 3px;
+
+#scraping-main .glyphicon {
+    font-size: 18px;
+}
+
+
+.controls-bar {
+    display: inline-block;
+    position: relative;
+    padding-left: 20px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    display: -webkit-flex;
+    -webit-flex-direction: column;
+    border-bottom: solid 1px #ccc;
+}
+
+
+.profile-module-frame {
+    padding: 20px;
+    margin: 20px;
+    /*border-radius: 3px;*/
     border-top: 1px solid #eee;
     border-right: 1px solid #eee;
     border-bottom: 1px solid #eee;
     border-left: 5px solid #428bca;
 }
 
-.profile-module-frame {
-    padding: 5px 20px;
-    margin: 5px 20px;
-    border-radius: 3px;
+
+.profile-item-frame {
+    padding: 5px 0px 0px 10px;
+    margin: 0px 5px;
     border-top: 1px solid #eee;
-    border-right: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    border-left: 5px solid #428bca;
+    border-right: 0px;
+    border-bottom: 0px;
+    border-left: 1px solid #eee;
 }
 
 
@@ -168,40 +186,9 @@ webview {
 }
 
 
-#export-pathname {
+#profile-pathname, #export-pathname {
     padding-left: 40px;
     color: #888;
-}
-
-#export-controls {
-    display: inline-block;
-    position: relative;
-    padding-left: 20px;
-}
-
-#export-controls button, button[disabled]:hover {
-    border: solid 1px transparent;
-    background: transparent;
-}
-
-#export-controls button:hover{
-    border-color: #ccc;
-    background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
-}
-
-
-#export-controls button:active {
-    border-color: #bbb;
-    background: -webkit-linear-gradient(bottom, #e2e2e2 0%, #bbbbbb 99%);
-}
-
-
-#export-controls {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: -webkit-flex;
-    -webit-flex-direction: column;
-    border-bottom: solid 1px #ccc;
 }
 
 
@@ -210,31 +197,6 @@ webview {
     position: relative;
 }
 
-
-#main-nav-log button {
-    border: solid 1px transparent;
-    background: transparent;
-}
-
-#main-nav-log button:hover {
-    border-color: #ccc;
-    background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
-}
-
-#main-nav-log button:active {
-    border-color: #bbb;
-    background: -webkit-linear-gradient(bottom, #e2e2e2 0%, #bbbbbb 99%);
-}
-
-#log-controls {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-bottom: solid 1px #ccc;
-}
-
-#log-controls button{
-    margin-left: 20px;
-}
 
 #main-nav-log-table {
     overflow-y: auto;

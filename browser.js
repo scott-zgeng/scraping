@@ -4,6 +4,10 @@ var browser = (function (configModule, tabsModule) {
     };
 
     var Browser = function (controlsContainer,
+                            openProfile,
+                            saveProfile,
+                            refreshExport,
+                            saveExport,
                             inspect,
                             addModule,
                             back,
@@ -17,6 +21,12 @@ var browser = (function (configModule, tabsModule) {
                             newTabElement) {
 
         this.controlsContainer = controlsContainer;
+
+        this.openProfile = openProfile;
+        this.saveProfile = saveProfile;
+        this.refreshExport = refreshExport;
+        this.saveExport = saveExport;
+
         this.inspect = inspect;
         this.addModule = addModule;
         this.back = back;
@@ -39,11 +49,9 @@ var browser = (function (configModule, tabsModule) {
 
 
         // add by zhanggeng
-        this.refreshButton = null;
-        this.saveButton = null;
         this.fileEntry = null;
-        this.hasWriteAccess = false;
         this.exportDoc = document.implementation.createDocument("", "", null);
+        this.profileEntry = null;
 
         this.init();
     };
@@ -160,17 +168,27 @@ var browser = (function (configModule, tabsModule) {
             } else {
                 tab.navigateTo(configModule.homepage);
             }
+
             browser.tabs.selectTab(tab);
 
+            browser.openProfile.addEventListener("click", function (e) {
+                browser.handleOpenProfile();
+            });
 
-            // add by zhanggeng
+            browser.saveProfile.addEventListener("click", function (e) {
+                browser.handleSaveProfile();
+            });
+
+            browser.refreshExport.addEventListener("click", function (e) {
+                browser.handleRefreshExport();
+            });
+
+            browser.saveExport.addEventListener("click", function(e) {
+                browser.handleSaveExport();
+            });
+
+
             browser.initDialog();
-
-            browser.refreshButton = document.getElementById("export-refresh");
-            browser.saveButton = document.getElementById("export-save");
-
-            browser.refreshButton.addEventListener("click", browser.handleRefreshButton);
-            browser.saveButton.addEventListener("click", browser.handleSaveButton);
 
         }(this));
     };
@@ -281,8 +299,7 @@ var browser = (function (configModule, tabsModule) {
     };
 
 
-
-    Browser.prototype.handleRefreshButton = function() {
+    Browser.prototype.handleRefreshExport = function() {
 
         var doc = this.exportDoc.empty();
         var site = doc.createElement("site");
@@ -296,8 +313,6 @@ var browser = (function (configModule, tabsModule) {
             rows.each(function () {
                 var items = $(this).children();
 
-
-
                 console.log(items.first().text());
                 console.log(items.last().text());
             });
@@ -306,7 +321,7 @@ var browser = (function (configModule, tabsModule) {
 
 
 
-    Browser.prototype.handleSaveButton = function() {
+    Browser.prototype.handleSaveExport = function() {
         var fileData = null;
 
         if (this.fileEntry && this.hasWriteAccess) {
@@ -381,6 +396,9 @@ var browser = (function (configModule, tabsModule) {
 
             var newItem = {};
 
+            newItem.module = $("#inspect-module option:selected").val();
+            if (!newItem.module) return;
+
             newItem.type = $("#inspect-type option:selected").val();
             newItem.selectorType = $("#inspect-select-type option:selected").val();
             newItem.selectorValue = $("#inspect-selector option:selected").val();
@@ -403,6 +421,8 @@ var browser = (function (configModule, tabsModule) {
             newItem.name = $("#dlg-module-name").val();
             newItem.rule = $("#dlg-module-rule").val();
 
+            if (!newItem.name || !newItem.rule) return;
+
             $('#add-module-dlg').modal('hide');
 
             browser.createNewModule(newItem);
@@ -413,16 +433,19 @@ var browser = (function (configModule, tabsModule) {
             $(this).find('form')[0].reset();
         });
 
-        this.initBtnAction();
     };
 
 
     Browser.prototype.onProcessStyle = function (styles) {
         if (!styles || styles.length == 0) return;
 
-
+        // generate the module list
         $("#inspect-module").empty();
 
+        $(".profile-module-frame").each(function (idx) {
+            var dataName = $(this).attr("data-name")
+            $("#inspect-module").append("<option>" + dataName + "</option>");
+        });
 
         // process the get selector operation
         $("#inspect-selector").empty();
@@ -442,10 +465,10 @@ var browser = (function (configModule, tabsModule) {
 
         var i=0;
         var frameData = [];
-        frameData[i++] ='<button type="button" class="btn btn-danger btn-xs pull-right btn-del-profile">delete</button>';
-        frameData[i++] ='<h2>scraping item</h2>';
+        frameData[i++] ='<button type="button" class="close btn-del-profile" aria-label="Close"><span aria-hidden="true">¡Á<span></button>';
+        frameData[i++] ='<h4>scraping item</h4>';
         frameData[i++] = '<table class="table table-hover">';
-        frameData[i++] = ' <thead><tr> <th width="30%">property</th> <th>value</th> </tr></thead> <tbody>';
+        frameData[i++] = ' <thead><tr> <th width="200px">property</th> <th>value</th> </tr></thead> <tbody>';
 
 
         for (var key in newItem) {
@@ -456,13 +479,15 @@ var browser = (function (configModule, tabsModule) {
 
         frame.innerHTML = frameData.join('');
 
-        $('#main-nav-profile').append(frame);
+        var module = $('.profile-module-frame[data-name="' + newItem.module + '"]');
+        if (!module) return;
+
+        module.append(frame);
 
         $('.btn-del-profile').on('click', function () {
             var node = $(this).parent(".profile-item-frame");
             node.remove();
         });
-
     };
 
 
@@ -481,13 +506,13 @@ var browser = (function (configModule, tabsModule) {
 
         var i=0;
         var frameData = [];
-        frameData[i++] ='<button type="button" class="btn btn-danger btn-xs pull-right btn-del-module">delete</button>';
+        frameData[i++] ='<button type="button" class="close btn-del-module" aria-label="Close"><span aria-hidden="true">¡Á<span></button>';
         frameData[i++] ='<h2>' + newItem.name + '</h2>';
-        frameData[i++] ='<h4>' + newItem.rule + '</h4>';
+        frameData[i++] ='<h5>' + "pattern: " + newItem.rule + '</h5>';
 
         frame.innerHTML = frameData.join('');
 
-        $('#main-nav-profile').append(frame);
+        $('#main-profile-panel').append(frame);
 
         $('.btn-del-module').on('click', function () {
             var node = $(this).parent(".profile-module-frame");
@@ -497,6 +522,82 @@ var browser = (function (configModule, tabsModule) {
 
 
 
+    Browser.prototype.reloadProfile = function(file, e) {
+        var panel = $("#main-profile-panel");
+        panel.empty();
+        panel.html(e.target.result);
+
+        $("#profile-pathname").html("filename: " + file.name);
+    };
+
+    Browser.prototype.handleOpenProfile = function() {
+
+        var browser = this;
+
+        chrome.fileSystem.chooseEntry({type: 'openWritableFile'}, function(file) {
+
+            if (!file) return;
+            browser.profileEntry = file;
+
+            browser.profileEntry.file(function (file) {
+
+                var fileReader = new FileReader();
+
+                fileReader.onload = function (e) {
+                    browser.reloadProfile(file, e);
+                };
+
+                fileReader.onerror = function (e) {
+                    console.log("Read failed: " + e.toString());
+                };
+
+                fileReader.readAsText(file);
+            }, browser.errorHandler);
+        });
+    };
+
+
+    Browser.prototype.writeProfileToFile = function (file) {
+        var browser = this;
+
+        file.createWriter(function(fileWriter) {
+
+            fileWriter.onerror = function(e) {
+                console.log("Write failed: " + e.toString());
+            };
+
+            var profile = $("#main-profile-panel").html();
+
+            console.log(profile);
+
+            var blob = new Blob([profile], {type: 'text/plain'});
+
+            fileWriter.truncate(blob.size);
+            fileWriter.onwriteend = function() {
+                fileWriter.onwriteend = function(e) {
+                    console.log("Write completed.");
+                    $("#profile-pathname").html("filename: " + file.name);
+                };
+                fileWriter.write(blob);
+            };
+        }, browser.errorHandler);
+    };
+
+
+    Browser.prototype.handleSaveProfile = function() {
+        var browser = this;
+
+        if (browser.profileEntry) {
+            browser.writeProfileToFile(browser.profileEntry);
+            return;
+        }
+
+        chrome.fileSystem.chooseEntry({ type: 'saveFile' }, function(file) {
+            browser.profileEntry = file;
+            browser.writeProfileToFile(browser.profileEntry);
+        });
+
+    };
 
 
     //  instance
