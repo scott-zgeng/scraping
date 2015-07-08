@@ -4,12 +4,18 @@ var browser = (function (configModule, tabsModule) {
     };
 
     var Browser = function (controlsContainer,
+
                             openProfile,
                             saveProfile,
                             refreshExport,
                             saveExport,
+                            cleanLog,
+
+                            devTools,
                             inspect,
                             addModule,
+                            viewEffect,
+
                             back,
                             forward,
                             home,
@@ -26,9 +32,13 @@ var browser = (function (configModule, tabsModule) {
         this.saveProfile = saveProfile;
         this.refreshExport = refreshExport;
         this.saveExport = saveExport;
+        this.cleanLog = cleanLog;
 
+        this.devTools = devTools;
         this.inspect = inspect;
         this.addModule = addModule;
+        this.viewEffect = viewEffect;
+
         this.back = back;
         this.forward = forward;
         this.reload = reload;
@@ -76,6 +86,11 @@ var browser = (function (configModule, tabsModule) {
                 browser.doKeyDown(e);
             });
 
+            browser.devTools.addEventListener('click', function (e) {
+                browser.tabs.getSelected().devTools();
+            });
+
+
             browser.inspect.addEventListener('click', function (e) {
                 browser.tabs.getSelected().inspect();
             });
@@ -83,6 +98,12 @@ var browser = (function (configModule, tabsModule) {
             browser.addModule.addEventListener('click', function (e) {
                 browser.doAddModule();
             });
+
+            browser.viewEffect.addEventListener('click', function (e) {
+                browser.tabs.getSelected().viewEffect();
+            });
+
+
 
             browser.back.addEventListener('click', function (e) {
                 browser.tabs.getSelected().goBack();
@@ -189,8 +210,14 @@ var browser = (function (configModule, tabsModule) {
                 browser.handleSaveExport();
             });
 
+            browser.cleanLog.addEventListener("click", function(e) {
+                browser.handleCleanLog();
+            });
 
             browser.initDialog();
+
+
+            writeLog("browser startup");
 
         }(this));
     };
@@ -222,8 +249,12 @@ var browser = (function (configModule, tabsModule) {
         }
 
 
+        var profileCtrl = document.getElementById('profile-controls-bar')
+        windowHeight = windowHeight - 80;
+
         // add by zhanggeng 增加大小设置
-        var profilePanel = document.getElementById('main-nav-profile');
+
+        var profilePanel = document.getElementById('main-profile-panel');
         profilePanel.style.height = windowHeight + 'px';
 
 
@@ -233,8 +264,7 @@ var browser = (function (configModule, tabsModule) {
 
 
         var logArea = document.getElementById('main-nav-log-table');
-        var logAreaHeight = windowHeight - 80;
-        logArea.style.height = logAreaHeight  + 'px';
+        logArea.style.height = windowHeight  + 'px';
 
     };
 
@@ -332,7 +362,7 @@ var browser = (function (configModule, tabsModule) {
 
 
     Browser.prototype.initDialog = function() {
-        browser = this;
+        var browser = this;
 
         $('#inspect-dlg-btn').on('click', function () {
 
@@ -348,6 +378,7 @@ var browser = (function (configModule, tabsModule) {
             $('#inspect-dlg').modal('hide');
 
             browser.createNewItem(module, newItem);
+
         });
 
 
@@ -430,7 +461,10 @@ var browser = (function (configModule, tabsModule) {
         $('.btn-del-profile').on('click', function () {
             var node = $(this).parent(".profile-item-frame");
             node.remove();
+            writeLog("remove item");
         });
+
+        writeLog("create new item: type = " + newItem.type + ", selector = " + newItem.selectorValue);
     };
 
 
@@ -461,7 +495,10 @@ var browser = (function (configModule, tabsModule) {
         $('.btn-del-module').on('click', function () {
             var node = $(this).parent(".profile-module-frame");
             node.remove();
+            writeLog("remove module");
         });
+
+        writeLog("create new module: " + newItem.name);
     };
 
 
@@ -486,6 +523,7 @@ var browser = (function (configModule, tabsModule) {
             node.remove();
         });
 
+        writeLog("open profile from: " + file.name);
     };
 
     Browser.prototype.handleOpenProfile = function() {
@@ -531,8 +569,9 @@ var browser = (function (configModule, tabsModule) {
             fileWriter.truncate(blob.size);
             fileWriter.onwriteend = function() {
                 fileWriter.onwriteend = function(e) {
-                    console.log("Write completed.");
+                    console.log("Write profile completed.");
                     $("#profile-pathname").html("filename: " + file.name);
+                    writeLog("write profile to: " + file.name);
                 };
                 fileWriter.write(blob);
             };
@@ -543,18 +582,21 @@ var browser = (function (configModule, tabsModule) {
     Browser.prototype.handleSaveProfile = function() {
         var browser = this;
 
-        if (browser.profileEntry) {
-            browser.writeProfileToFile(browser.profileEntry);
-            return;
+        try {
+            if (browser.profileEntry) {
+                browser.writeProfileToFile(browser.profileEntry);
+                return;
+            }
+
+            chrome.fileSystem.chooseEntry({ type: 'saveFile' }, function(file) {
+                if (!file) return;
+
+                browser.profileEntry = file;
+                browser.writeProfileToFile(browser.profileEntry);
+            });
+        } catch (e) {
+            console.log("catch exception: " + e);
         }
-
-        chrome.fileSystem.chooseEntry({ type: 'saveFile' }, function(file) {
-            if (!file) return;
-
-            browser.profileEntry = file;
-            browser.writeProfileToFile(browser.profileEntry);
-        });
-
     };
 
 
@@ -606,23 +648,31 @@ var browser = (function (configModule, tabsModule) {
         text = vkbeautify.xml(text);
         var exportView = document.getElementById("main-nav-export-area");
         exportView.contentWindow.postMessage(text, '*');
+
+        writeLog("refresh export xml");
     };
 
 
 
     Browser.prototype.handleSaveExport = function() {
+        var browser = this;
 
-        if (this.exportEntry) {
-            this.writeExportToFile(this.exportEntry);
-            return;
+        try {
+            if (this.exportEntry) {
+                this.writeExportToFile(this.exportEntry);
+                return;
+            }
+
+            chrome.fileSystem.chooseEntry({type: 'saveFile'}, function (file) {
+                if (!file) return;
+
+                browser.exportEntry = file;
+                browser.writeExportToFile(browser.exportEntry);
+            });
+
+        } catch (e) {
+            console.log("catch exception: " + e);
         }
-
-        chrome.fileSystem.chooseEntry({ type: 'saveFile' }, function(file) {
-            if (!file) return;
-
-            browser.exportEntry = file;
-            browser.writeExportToFile(browser.exportEntry);
-        });
     };
 
 
@@ -642,12 +692,19 @@ var browser = (function (configModule, tabsModule) {
             fileWriter.truncate(blob.size);
             fileWriter.onwriteend = function() {
                 fileWriter.onwriteend = function(e) {
-                    console.log("Write completed.");
+                    console.log("Write export file completed.");
                     $("#export-pathname").html("filename: " + file.name);
+                    writeLog("write export xml to: " + file.name);
                 };
                 fileWriter.write(blob);
+
             };
         }, browser.errorHandler);
+    };
+
+
+    Browser.prototype.handleCleanLog = function() {
+        $("#main-nav-log-table tbody").empty();
     };
 
 
@@ -657,3 +714,15 @@ var browser = (function (configModule, tabsModule) {
 })(config, tabs);
 
 
+function writeLog(logData) {
+
+    var currDate = new Date();
+    var log =
+        '<tr>' +
+        '<td width="180px">' + currDate.toLocaleString() + '</td>' +
+        '<td>' + logData + '</td>' +
+        '</tr>';
+
+    $("#main-nav-log-table tbody").append(log);
+
+};

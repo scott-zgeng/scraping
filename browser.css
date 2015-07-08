@@ -167,6 +167,7 @@ webview {
     border-right: 1px solid #eee;
     border-bottom: 1px solid #eee;
     border-left: 5px solid #428bca;
+
 }
 
 
@@ -181,8 +182,8 @@ webview {
 
 
 
-#main-nav-profile {
-    overflow-y:auto;
+#main-profile-panel {
+    overflow-y:scroll;
 }
 
 

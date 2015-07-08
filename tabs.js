@@ -13,6 +13,8 @@ var tabs = (function (popupModule) {
         this.tabContainer = tabContainer;
         this.contentContainer = contentContainer;
         this.newTabElement = newTabElement;
+        this.isFBLoaded = false;
+        this.isViewEffect = false;
     };
 
     TabList.prototype.getNumTabs = function () {
@@ -291,8 +293,6 @@ var tabs = (function (popupModule) {
                     return tab.doScriptInjected(results);
                 });
             this.scriptInjectionAttempted = true;
-
-
         }
     };
 
@@ -307,7 +307,6 @@ var tabs = (function (popupModule) {
                 'name': this.name
             };
 
-            console.log(window);
             this.webview.contentWindow.postMessage(JSON.stringify(data), '*');
         }
     };
@@ -332,42 +331,78 @@ var tabs = (function (popupModule) {
     };
 
     Tab.prototype.stopNavigation = function () {
+        this.isFBLoaded = false;
         this.webview.stop();
     };
 
     Tab.prototype.doReload = function () {
+        this.isFBLoaded = false;
         this.webview.reload();
     };
 
-    Tab.prototype.inspect = function () {
+    Tab.prototype.devTools = function () {
+        console.log("devTools");
 
-        console.log("Tab inspect");
+        var tab = this;
 
-        var that = this;
-        that.webview.executeScript(
-            {'file': 'load_context.js'},
-            function (results) {
-                that.webview.executeScript(
-                    {'file': 'firebug-lite-beta.js'},
-                    function (results) {
-                        that.webview.executeScript(
-                            {'file': 'googleChrome.js'}
-                        );
+        if (!this.isFBLoaded) {
+            this.isFBLoaded = true;
 
-                        that.webview.insertCSS(
-                            {'file': 'firebug.css'}
-                        );
-                    }
-                );
-            }
-        );
+            tab.webview.executeScript(
+                {'file': 'load_context.js'},
+                function (results) {
+                    tab.webview.executeScript(
+                        {'file': 'firebug-lite-beta.js'}
+                    );
+
+                    tab.webview.executeScript(
+                        {'file': 'googleChrome.js'}
+                    );
+
+                    tab.webview.insertCSS(
+                        {'file': 'firebug.css'}
+                    );
+                }
+            );
+
+        } else {
+            tab.postMessage({type: "toggle"});
+        }
     };
 
+    Tab.prototype.inspect = function () {
+        this.postMessage({type: "inspect"});
+    };
+
+
+    Tab.prototype.viewEffect = function () {
+        this.isViewEffect = !this.isViewEffect;
+        var data = {};
+        data.type = "view-effect";
+        data.isViewEffect = this.isViewEffect;
+        data.selectors = [];
+        var selectors = $(".profile-item-frame tr[key=selectorValue]");
+        selectors.each(function(idx) {
+            var selector = $(this);
+            data.selectors.push(selector.attr("value"));
+        });
+
+        this.postMessage(data);
+    };
+
+
+    Tab.prototype.postMessage = function (data) {
+        this.webview.contentWindow.postMessage(JSON.stringify(data), '*');
+    };
+
+
     Tab.prototype.goBack = function () {
+        this.isFBLoaded = false;
         this.webview.back();
     };
 
     Tab.prototype.goForward = function () {
+        this.isFBLoaded = false;
         this.webview.forward();
     };
 

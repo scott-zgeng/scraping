@@ -59,13 +59,20 @@
 
 
                         <div id="browser-view-controls">
-                            <button id="inspect" title="Inspect Element">
-                                <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                            </button>
 
-                            <button id="add-module" title="Add Module">
+                            <button id="dev-tools" title="Toggle DevTools">
+                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                            </button>
+                            <button id="inspect" title="Inspect Element">
+                                <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+                            </button>
+                            <button id="add-module" title="Add a New Module">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                             </button>
+                            <button id="view-effect" title="View Select Effect">
+                                <span class="glyphicon glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                            </button>
+
 
                             <button id="back" title="Go Back">
                                 <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
@@ -77,8 +84,9 @@
                                 <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
                             </button>
                             <button id="reload" title="Reload">
-                                <span id="reload_inner" class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                             </button>
+
                             <form id="location-form">
                                 <div id="center-column">
                                     <input id="location" type="text" value="" spellcheck='false'>
@@ -92,7 +100,7 @@
 
                 <!--profile panel -->
                 <div role="tabpanel" class="tab-pane" id="main-nav-profile">
-                    <div class="controls-bar">
+                    <div class="controls-bar" id="profile-controls-bar">
                         <button title="Open file" id="open-profile-btn">
                             <span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span>
                         </button>
@@ -115,7 +123,7 @@
                         <button id="export-save-btn" title="Save the Export File">
                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
                         </button>
-                        <span id="export-pathname">pathname: (null)</span>
+                        <span id="export-pathname">filename: (null)</span>
                     </div>
                     <div>
                         <webview tabindex="-1" partition="export" src="export.html" class="selected active" id="main-nav-export-area"></webview>
@@ -125,19 +133,14 @@
                 <!--logger panel -->
                 <div role="tabpanel" class="tab-pane" id="main-nav-log">
                     <div class="controls-bar">
-                        <button title="Clean Log">
+                        <button title="Clean Log" id="clean-log-btn">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </button>
                     </div>
                     <div id="main-nav-log-table">
                         <table class="table table-hover">
                             <thead><tr> <th width="80px">Time</th> <th>Detail</th> </tr></thead>
-                            <tbody>
-                                <tr> <td width="80px">10:00:00</td> <td>new item createed</td> </tr>
-                                <tr> <td width="80px">12:00:00</td> <td>new item createed</td> </tr>
-                                <tr> <td width="80px">12:00:00</td> <td>new item createed</td> </tr>
-                                <tr> <td width="80px">12:00:00</td> <td>new item createed</td> </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
 

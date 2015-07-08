@@ -9293,6 +9293,39 @@ FBL.FirebugChrome =
 
         addGlobalEvent("keydown", onGlobalKeyDown);
 
+        window.addEventListener('message', function (e) {
+            var data = JSON.parse(e.data);
+            
+            switch (data.type) {
+
+                case "inspect":
+                    Firebug.Inspector.startInspecting();
+                    break;
+                case "toggle":
+                    Firebug.chrome.toggle();
+                    break;
+                case "view-effect":
+                    var selectors = data.selectors;
+                    for (var i=0; i<selectors.length; i++) {
+                        var nodes = document.querySelectorAll(selectors[i]);
+                        for (var n=0; n<nodes.length; n++) {
+                            if (data.isViewEffect) {
+                                nodes[n].setAttribute("FB-view-effect-color", nodes[n].style.backgroundColor);
+                                nodes[n].style.backgroundColor = "#ff7";
+                            } else {                                
+                                nodes[n].style.backgroundColor = nodes[n].getAttribute("FB-view-effect-color");
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    console.log("invalid data type");
+                    break;
+            }
+
+        });
+
+
         if (Env.Options.enablePersistent && chrome.type == "popup")
         {
             // TODO: xxxpedro persist - revise chrome synchronization when in persistent mode
