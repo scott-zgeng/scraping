@@ -346,22 +346,19 @@ var tabs = (function (popupModule) {
         var tab = this;
 
         if (!this.isFBLoaded) {
-            this.isFBLoaded = true;
-
             tab.webview.executeScript(
                 {'file': 'load_context.js'},
                 function (results) {
                     tab.webview.executeScript(
                         {'file': 'firebug-lite-beta.js'}
                     );
-
                     tab.webview.executeScript(
                         {'file': 'googleChrome.js'}
                     );
-
                     tab.webview.insertCSS(
                         {'file': 'firebug.css'}
                     );
+                    tab.isFBLoaded = true;
                 }
             );
 

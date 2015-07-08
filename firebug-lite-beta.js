@@ -9293,11 +9293,11 @@ FBL.FirebugChrome =
 
         addGlobalEvent("keydown", onGlobalKeyDown);
 
+        
         window.addEventListener('message', function (e) {
             var data = JSON.parse(e.data);
             
             switch (data.type) {
-
                 case "inspect":
                     Firebug.Inspector.startInspecting();
                     break;
@@ -9319,10 +9319,9 @@ FBL.FirebugChrome =
                     }
                     break;
                 default:
-                    console.log("invalid data type");
+                    console.log("invalid data type: ", data.type);
                     break;
             }
-
         });
 
 

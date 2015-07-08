@@ -183,7 +183,7 @@ webview {
 
 
 #main-profile-panel {
-    overflow-y:scroll;
+    overflow-y:auto;
 }
 
 

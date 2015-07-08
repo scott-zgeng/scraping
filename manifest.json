@@ -31,7 +31,7 @@
     "partitions": [
       {
         "name": "static",
-        "accessible_resources": ["*.html", "*.css", "*.js"]
+        "accessible_resources": ["welcome.html", "welcome.css"]
       },
       {
         "name": "export",

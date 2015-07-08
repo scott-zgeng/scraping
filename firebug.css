@@ -2809,8 +2809,8 @@ a.fbTab:hover .fbTabR {
 /* splitters 
 *************************************************************************************************/
 #fbHSplitter {
-    position: fixed;
-    _position: absolute;
+    /*position: fixed;*/
+    /*_position: absolute;*/
     left: 0;
     top: 0;
     width: 100%;
